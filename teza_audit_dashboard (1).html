@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEZA Doors — Creative Intelligence Audit · 2025 vs 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0d10; --bg-2: #0f1318; --panel: #131820; --panel-2: #181e27; --panel-3: #1d2530;
+  --border: #232b37; --border-2: #2c3543;
+  --text: #e8ecef; --text-2: #a4adb8; --text-3: #6b7480;
+  --teal: #2dd4bf; --teal-bg: rgba(45, 212, 191, 0.1);
+  --green: #4ade80; --green-bg: rgba(74, 222, 128, 0.12);
+  --red: #f87171; --red-bg: rgba(248, 113, 113, 0.12);
+  --amber: #fbbf24; --amber-bg: rgba(251, 191, 36, 0.12);
+  --purple: #a78bfa; --purple-bg: rgba(167, 139, 250, 0.12);
+  --blue: #60a5fa; --blue-bg: rgba(96, 165, 250, 0.12);
+  --orange: #fb923c;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  background: var(--bg); color: var(--text);
+  font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+.app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+
+/* SIDEBAR */
+.sidebar {
+  background: var(--bg-2); border-right: 1px solid var(--border);
+  padding: 24px 0; display: flex; flex-direction: column;
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+}
+.sidebar-brand {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 20px 24px; border-bottom: 1px solid var(--border); margin-bottom: 16px;
+}
+.brand-logo {
+  width: 36px; height: 36px; background: var(--teal-bg); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--teal); font-size: 18px;
+}
+.brand-text { line-height: 1.2; }
+.brand-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.brand-sub { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.nav-section-label {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-3); padding: 16px 20px 8px;
+}
+.nav { display: flex; flex-direction: column; gap: 2px; padding: 0 8px; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 12px; border-radius: 6px;
+  font-size: 13px; font-weight: 500; color: var(--text-2);
+  cursor: pointer; text-decoration: none; transition: all 0.15s;
+  border: none; background: transparent; width: 100%; text-align: left;
+}
+.nav-item:hover { background: var(--panel); color: var(--text); }
+.nav-item.active { background: var(--teal-bg); color: var(--teal); position: relative; }
+.nav-item.active::before {
+  content: ''; position: absolute; left: -8px; top: 50%;
+  transform: translateY(-50%); width: 3px; height: 18px;
+  background: var(--teal); border-radius: 0 2px 2px 0;
+}
+.nav-icon { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.9; }
+.sidebar-footer {
+  margin-top: auto; padding: 16px 20px; border-top: 1px solid var(--border);
+  font-size: 11px; color: var(--text-3); line-height: 1.6;
+}
+.sidebar-footer strong { color: var(--text-2); font-weight: 500; }
+.acct-id { color: var(--teal); font-family: 'JetBrains Mono', monospace; font-size: 10px; margin-top: 4px; display: block; }
+
+.main { padding: 0; overflow-x: hidden; }
+
+/* TOPBAR */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 32px; border-bottom: 1px solid var(--border);
+  background: var(--bg-2); position: sticky; top: 0; z-index: 50;
+}
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+.year-vs {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+}
+.year-pill { padding: 5px 11px; border-radius: 20px; letter-spacing: 0.03em; }
+.year-pill.y25 { background: var(--amber-bg); color: var(--amber); }
+.year-pill.y26 { background: var(--teal-bg); color: var(--teal); }
+.year-pill::before {
+  content: ''; display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; margin-right: 6px; vertical-align: middle;
+}
+.year-pill.y25::before { background: var(--amber); }
+.year-pill.y26::before { background: var(--teal); }
+.year-vs-arrow { color: var(--text-3); font-size: 14px; }
+.topbar-right { font-size: 12px; color: var(--text-3); }
+
+/* HEADLINE BANNER */
+.headline-banner {
+  margin: 24px 32px 0; padding: 18px 22px;
+  background: linear-gradient(135deg, rgba(45, 212, 191, 0.08) 0%, rgba(167, 139, 250, 0.05) 100%);
+  border: 1px solid rgba(45, 212, 191, 0.3); border-radius: 10px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.headline-icon {
+  width: 36px; height: 36px; background: var(--teal-bg); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--teal); font-size: 18px; flex-shrink: 0;
+}
+.headline-body { flex: 1; }
+.headline-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.headline-text { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+.headline-text strong { color: var(--teal); font-weight: 600; }
+
+/* SECTION */
+.section-block { padding: 32px 32px 16px; }
+.section-header {
+  display: flex; justify-content: space-between;
+  align-items: flex-end; margin-bottom: 24px;
+}
+.section-title-block h2 {
+  font-size: 22px; font-weight: 700;
+  letter-spacing: -0.01em; color: var(--text);
+}
+.section-title-block p { font-size: 13px; color: var(--text-3); margin-top: 4px; }
+.section-meta {
+  font-size: 11px; color: var(--text-3);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* INSIGHT GRID */
+.insight-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
+.insight-grid.three { grid-template-columns: repeat(3, 1fr); }
+.insight-grid.one { grid-template-columns: 1fr; }
+
+.insight-row {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px 22px; transition: all 0.2s;
+}
+.insight-row:hover { border-color: var(--border-2); }
+.insight-row.added { border-left: 3px solid var(--green); }
+.insight-row.shifted { border-left: 3px solid var(--amber); }
+.insight-row.removed { border-left: 3px solid var(--red); }
+.insight-row.new { border-left: 3px solid var(--teal); }
+
+.insight-tag {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  padding: 3px 8px; border-radius: 4px;
+  letter-spacing: 0.05em; font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 10px;
+}
+.insight-tag.added { background: var(--green-bg); color: var(--green); }
+.insight-tag.shifted { background: var(--amber-bg); color: var(--amber); }
+.insight-tag.removed { background: var(--red-bg); color: var(--red); }
+.insight-tag.new { background: var(--teal-bg); color: var(--teal); }
+
+.insight-h { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; line-height: 1.35; }
+.insight-h em { font-style: italic; color: var(--teal); }
+.insight-detail { font-size: 12.5px; color: var(--text-2); line-height: 1.6; }
+
+.insight-yoy {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px dashed var(--border); font-size: 11.5px;
+}
+.yoy-side { flex: 1; }
+.yoy-label {
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-3); font-family: 'JetBrains Mono', monospace; margin-bottom: 4px;
+}
+.yoy-val { color: var(--text); font-weight: 500; }
+.yoy-val.y25 { color: var(--amber); }
+.yoy-val.y26 { color: var(--teal); }
+.yoy-arrow { color: var(--text-3); font-size: 14px; padding: 0 4px; }
+
+/* DIAGRAM CARD */
+.diagram-card {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 10px; padding: 24px; margin-bottom: 24px;
+}
+.diagram-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.diagram-sub { font-size: 11.5px; color: var(--text-3); margin-bottom: 18px; }
+.diagram-canvas { width: 100%; height: auto; display: block; }
+.diagram-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+.legend-row { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+.legend-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--text-2);
+  font-family: 'JetBrains Mono', monospace;
+}
+.legend-swatch { width: 12px; height: 12px; border-radius: 3px; }
+
+/* DELTA SUMMARY TABLE */
+.delta-summary {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; margin-bottom: 24px;
+}
+.delta-row {
+  display: grid; grid-template-columns: 110px 1fr 1fr 110px;
+  padding: 14px 20px; border-bottom: 1px solid var(--border);
+  align-items: center; gap: 16px; transition: background 0.15s;
+}
+.delta-row:hover { background: var(--panel-2); }
+.delta-row:last-child { border-bottom: none; }
+.delta-row.header {
+  background: var(--panel-2);
+  font-size: 10.5px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-3); font-family: 'JetBrains Mono', monospace;
+}
+.delta-tag {
+  font-size: 10.5px; font-weight: 700;
+  padding: 4px 10px; border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.04em; text-align: center; width: fit-content;
+}
+.delta-tag.added { background: var(--green-bg); color: var(--green); }
+.delta-tag.removed { background: var(--red-bg); color: var(--red); }
+.delta-tag.shifted { background: var(--amber-bg); color: var(--amber); }
+.delta-tag.new { background: var(--teal-bg); color: var(--teal); }
+.delta-tag.same { background: var(--panel-3); color: var(--text-3); }
+.delta-feature { font-size: 13px; font-weight: 500; color: var(--text); }
+.delta-feature-sub { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.delta-cell { font-size: 12.5px; color: var(--text-2); }
+.delta-cell.y25 { color: var(--amber); }
+.delta-cell.y26 { color: var(--teal); }
+.delta-cell .check { color: var(--green); font-weight: 700; }
+.delta-cell .x { color: var(--red); font-weight: 700; }
+
+/* FUNNEL VIZ */
+.funnel-viz {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 10px; padding: 24px;
+}
+.funnel-viz-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.funnel-viz-sub { font-size: 11.5px; color: var(--text-3); margin-bottom: 20px; }
+.funnel-shape { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.funnel-tier {
+  padding: 14px 18px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 12px; font-weight: 500; position: relative; border: 1px solid;
+  width: 100%;
+}
+.funnel-tier .tier-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.funnel-tier .tier-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.funnel-tier .tier-detail { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.tier-empty {
+  background: rgba(107, 116, 128, 0.05); border-color: var(--border); color: var(--text-3);
+}
+.tier-empty .tier-name { color: var(--text-3); font-style: italic; }
+.tier-tof { background: var(--blue-bg); border-color: rgba(96,165,250,0.4); color: var(--blue); }
+.tier-mof { background: var(--purple-bg); border-color: rgba(167,139,250,0.4); color: var(--purple); }
+.tier-bof { background: var(--teal-bg); border-color: rgba(45,212,191,0.4); color: var(--teal); }
+.tier-rt { background: var(--amber-bg); border-color: rgba(251,191,36,0.4); color: var(--amber); }
+.tier-exc { background: var(--red-bg); border-color: rgba(248,113,113,0.4); color: var(--red); }
+.tier-w-100 { width: 100%; }
+.tier-w-85 { width: 85%; }
+.tier-w-70 { width: 70%; }
+.tier-w-55 { width: 55%; }
+.tier-w-40 { width: 40%; }
+
+.page { display: none; padding-bottom: 48px; }
+.page.active { display: block; }
+
+@media (max-width: 1100px) {
+  .insight-grid, .insight-grid.three { grid-template-columns: 1fr; }
+  .diagram-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { position: relative; height: auto; }
+  .delta-row { grid-template-columns: 1fr; gap: 8px; }
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">⌂</div>
+      <div class="brand-text">
+        <div class="brand-name">Teza Doors</div>
+        <div class="brand-sub">Creative Audit 2025→26</div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">Analysis</div>
+    <nav class="nav">
+      <button class="nav-item active" data-page="overview">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+        Headline Insights
+      </button>
+      <button class="nav-item" data-page="objectives">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        Objectives & Types
+      </button>
+      <button class="nav-item" data-page="creative">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+        Creative Evolution
+      </button>
+      <button class="nav-item" data-page="funnel">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        Funnel Architecture
+      </button>
+      <button class="nav-item" data-page="audience">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Audience & Targeting
+      </button>
+      <button class="nav-item" data-page="hooks">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        Hooks · UGC · Messaging
+      </button>
+    </nav>
+
+    <div class="nav-section-label">Synthesis</div>
+    <nav class="nav">
+      <button class="nav-item" data-page="findings">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Findings & Roadmap
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <strong>Ad Account</strong>
+      <span class="acct-id">act_1203943157395370</span>
+      <div style="margin-top: 8px;">Currency: USD</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="year-vs">
+          <span class="year-pill y25">2025</span>
+          <span class="year-vs-arrow">→</span>
+          <span class="year-pill y26">2026</span>
+        </div>
+        <span style="color: var(--text-2); font-size: 13px;">Creative & Strategic Evolution Audit</span>
+      </div>
+      <div class="topbar-right">
+        Teza Doors & Windows · Wise Advertisement
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: HEADLINE INSIGHTS ═══ -->
+    <div class="page active" id="page-overview">
+
+      <div class="headline-banner">
+        <div class="headline-icon">⚡</div>
+        <div class="headline-body">
+          <div class="headline-title">The macro story</div>
+          <div class="headline-text">
+            2025 ran on a <strong>single-objective, lead-form playbook</strong> with broad audiences and one-off creative production. 2026 introduced <strong>Catalog Ads</strong>, <strong>Sales / Purchase campaigns</strong>, layered retargeting, and the 3-Hook Rule applied as a launch precondition. The account shifted from "running ads" to <strong>running a creative system</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-header">
+          <div class="section-title-block">
+            <h2>Top 6 Strategic Shifts</h2>
+            <p>The headline differences between how the account was operated last year vs this year</p>
+          </div>
+          <div class="section-meta">YoY · Creative Operations</div>
+        </div>
+
+        <div class="insight-grid">
+          <div class="insight-row new">
+            <span class="insight-tag new">NEW IN 2026</span>
+            <div class="insight-h">Catalog Ads were introduced</div>
+            <div class="insight-detail">
+              2025 had no product catalog connected to Meta. In 2026, a product feed of door & window models was uploaded and used in dynamic catalog ads — letting Meta auto-personalize which SKU each viewer sees based on browsing signal.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025</div><div class="yoy-val y25">Not used <span class="mono" style="color:var(--red);">✕</span></div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026</div><div class="yoy-val y26">Catalog active <span class="mono" style="color:var(--green);">✓</span></div></div>
+            </div>
+          </div>
+
+          <div class="insight-row new">
+            <span class="insight-tag new">NEW IN 2026</span>
+            <div class="insight-h">Sales / Purchase campaigns added to the mix</div>
+            <div class="insight-detail">
+              2025 was entirely OUTCOME_LEADS optimized — all campaigns chased form fills. 2026 added OUTCOME_SALES campaigns optimized for purchase / quote-request events, opening a bottom-of-funnel layer that didn't exist before.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025 Objective</div><div class="yoy-val y25">Leads only</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026 Objective</div><div class="yoy-val y26">Leads + Sales</div></div>
+            </div>
+          </div>
+
+          <div class="insight-row added">
+            <span class="insight-tag added">ADDED</span>
+            <div class="insight-h">Retargeting became a dedicated funnel layer</div>
+            <div class="insight-detail">
+              2025 had no separated retargeting campaigns — prospecting and warm audiences shared budget. 2026 introduced dedicated video-view (25/50/75%) and site-visitor RT layers with proper converter exclusions.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025 RT Layers</div><div class="yoy-val y25">0 dedicated</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026 RT Layers</div><div class="yoy-val y26">2+ dedicated</div></div>
+            </div>
+          </div>
+
+          <div class="insight-row added">
+            <span class="insight-tag added">ADDED</span>
+            <div class="insight-h">3-Hook Rule applied as a launch precondition</div>
+            <div class="insight-detail">
+              2025 videos shipped with one improvised hook (mostly verbal). 2026 standardized the Visual + Text-on-Screen + Verbal triple-hook stack in the first 3 seconds of every video — and ran multiple hook variants per concept via the Hook Matrix.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025 Hook System</div><div class="yoy-val y25">Single-hook, ad-hoc</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026 Hook System</div><div class="yoy-val y26">Triple-hook, systematic</div></div>
+            </div>
+          </div>
+
+          <div class="insight-row shifted">
+            <span class="insight-tag shifted">SHIFTED</span>
+            <div class="insight-h">Creative output shifted from static-heavy to video-led</div>
+            <div class="insight-detail">
+              2025 leaned on static image ads with occasional carousels. 2026 inverted the mix — video became the primary format, with structured asset releases producing 9:16 hero + 1:1 social + before/after carousel from one concept.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025 Video Share</div><div class="yoy-val y25">~30%</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026 Video Share</div><div class="yoy-val y26">~60%</div></div>
+            </div>
+          </div>
+
+          <div class="insight-row added">
+            <span class="insight-tag added">ADDED</span>
+            <div class="insight-h">AI avatar production track came online</div>
+            <div class="insight-detail">
+              2025 had zero HeyGen / Higgsfield-style AI avatar content. 2026 introduced the ClickUp → Claude → HeyGen → n8n pipeline, allowing the same script to be rendered as multiple AI-avatar variants without re-shooting — running alongside owner-on-camera content.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025</div><div class="yoy-val y25">No AI avatar</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026</div><div class="yoy-val y26">AI avatar pipeline</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="diagram-card">
+          <div class="diagram-title">Campaign Type Inventory · what was used each year</div>
+          <div class="diagram-sub">Presence of each campaign type / ad format across the two periods</div>
+          <svg class="diagram-canvas" id="diagram-types" viewBox="0 0 800 480" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="legend-row">
+            <div class="legend-item"><span class="legend-swatch" style="background:#fbbf24"></span>Used in 2025</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#2dd4bf"></span>Used in 2026</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#1d2530"></span>Not used</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: OBJECTIVES & TYPES ═══ -->
+    <div class="page" id="page-objectives">
+      <div class="section-block">
+        <div class="section-header">
+          <div class="section-title-block">
+            <h2>Campaign Objectives & Ad Types</h2>
+            <p>What was used in each year — feature-by-feature presence audit</p>
+          </div>
+          <div class="section-meta">Dimensions 01 · 02</div>
+        </div>
+
+        <div class="delta-summary">
+          <div class="delta-row header">
+            <div>Status</div>
+            <div>Feature</div>
+            <div>2025</div>
+            <div style="text-align:right;">2026</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag new">NEW</span></div>
+            <div>
+              <div class="delta-feature">OUTCOME_SALES (Purchase optimization)</div>
+              <div class="delta-feature-sub">Optimize for quote-request / purchase events</div>
+            </div>
+            <div class="delta-cell y25"><span class="x">✕</span> Not used</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Active</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag added">EXPANDED</span></div>
+            <div>
+              <div class="delta-feature">OUTCOME_LEADS</div>
+              <div class="delta-feature-sub">Lead form / conversion-leads optimization</div>
+            </div>
+            <div class="delta-cell y25"><span class="check">✓</span> Only objective used</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Primary + Conversion Leads variant</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag added">ADDED</span></div>
+            <div>
+              <div class="delta-feature">OUTCOME_ENGAGEMENT</div>
+              <div class="delta-feature-sub">Video views / post engagement for warm-audience seeding</div>
+            </div>
+            <div class="delta-cell y25"><span class="x">✕</span> Not used</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Used as warm-audience builder</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag same">SAME</span></div>
+            <div>
+              <div class="delta-feature">OUTCOME_TRAFFIC</div>
+              <div class="delta-feature-sub">Link clicks / landing-page views</div>
+            </div>
+            <div class="delta-cell y25"><span class="check">✓</span> Used</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Used</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag removed">REMOVED</span></div>
+            <div>
+              <div class="delta-feature">OUTCOME_AWARENESS / Reach</div>
+              <div class="delta-feature-sub">Top-of-funnel reach campaigns</div>
+            </div>
+            <div class="delta-cell y25"><span class="check">✓</span> Used</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="x">✕</span> Dropped (replaced by Engagement)</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag new">NEW</span></div>
+            <div>
+              <div class="delta-feature">Catalog Ads (Product Feed)</div>
+              <div class="delta-feature-sub">Dynamic ads pulling from a connected product catalog</div>
+            </div>
+            <div class="delta-cell y25"><span class="x">✕</span> No catalog connected</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Catalog of door/window SKUs</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag added">EXPANDED</span></div>
+            <div>
+              <div class="delta-feature">Carousel Ads</div>
+              <div class="delta-feature-sub">Multi-card swipeable ad units</div>
+            </div>
+            <div class="delta-cell y25"><span class="check">✓</span> Occasional use</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Standard for before/after</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag added">EXPANDED</span></div>
+            <div>
+              <div class="delta-feature">Video Ads</div>
+              <div class="delta-feature-sub">9:16 / 1:1 / 16:9 video creative</div>
+            </div>
+            <div class="delta-cell y25"><span class="check">✓</span> ~30% of inventory, mostly 1:1</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> ~60% of inventory, 9:16 primary</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag same">SAME</span></div>
+            <div>
+              <div class="delta-feature">Static Image Ads</div>
+              <div class="delta-feature-sub">Single-image creative</div>
+            </div>
+            <div class="delta-cell y25"><span class="check">✓</span> Dominant format</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Supporting format (offer-stage)</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag same">SAME</span></div>
+            <div>
+              <div class="delta-feature">Instant Forms (in-platform lead form)</div>
+              <div class="delta-feature-sub">Native Meta lead-capture form</div>
+            </div>
+            <div class="delta-cell y25"><span class="check">✓</span> Primary lead capture</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Still used at TOF</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag new">NEW</span></div>
+            <div>
+              <div class="delta-feature">Collection Ads (mobile storefront)</div>
+              <div class="delta-feature-sub">Catalog-driven immersive shopping unit</div>
+            </div>
+            <div class="delta-cell y25"><span class="x">✕</span> Not used</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Tested with catalog</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag added">ADDED</span></div>
+            <div>
+              <div class="delta-feature">Memorial Day / Holiday Campaigns</div>
+              <div class="delta-feature-sub">Seasonally-timed offer windows</div>
+            </div>
+            <div class="delta-cell y25"><span class="check">✓</span> 1 holiday burst</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Multi-holiday calendar (MD, 4th, Labor, BF)</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag added">EXPANDED</span></div>
+            <div>
+              <div class="delta-feature">Localized / Geo-Specific Creatives</div>
+              <div class="delta-feature-sub">CA city-specific or permit-compliant assets</div>
+            </div>
+            <div class="delta-cell y25"><span class="check">✓</span> Generic California assets</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> City-level + permit-specific creative</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: CREATIVE EVOLUTION ═══ -->
+    <div class="page" id="page-creative">
+      <div class="section-block">
+        <div class="section-header">
+          <div class="section-title-block">
+            <h2>Creative Evolution</h2>
+            <p>How the production system, video formats, and testing methodology changed</p>
+          </div>
+          <div class="section-meta">Dimensions 03 · 04 · 08 · 09 · 10</div>
+        </div>
+
+        <div class="diagram-card">
+          <div class="diagram-title">Creative Format Mix · share of total ad inventory</div>
+          <div class="diagram-sub">Where production hours were invested — 2025 was static-led, 2026 video-led</div>
+          <svg class="diagram-canvas" id="diagram-formats" viewBox="0 0 800 280" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="legend-row">
+            <div class="legend-item"><span class="legend-swatch" style="background:#fbbf24"></span>2025</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#2dd4bf"></span>2026</div>
+          </div>
+        </div>
+
+        <div class="insight-grid">
+          <div class="insight-row added">
+            <span class="insight-tag added">EVOLVED</span>
+            <div class="insight-h">One concept → one ad <em>→</em> one concept → five cuts</div>
+            <div class="insight-detail">
+              2025 shipped one asset per concept. 2026 ships a structured asset release per concept: 9:16 vertical hero, 1:1 social cut, vertical short, before/after carousel frame, and offer-stage static. Same idea, five surfaces.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025</div><div class="yoy-val y25">~1 cut / concept</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026</div><div class="yoy-val y26">~5 cuts / concept</div></div>
+            </div>
+          </div>
+
+          <div class="insight-row added">
+            <span class="insight-tag added">EVOLVED</span>
+            <div class="insight-h">Video duration trended shorter and more hook-driven</div>
+            <div class="insight-detail">
+              2025 videos averaged longer-form, narrative-style (45–60s). 2026 collapsed to hook-led 15–30s content optimized for Reels / Stories placements, with captions/subtitles default-on.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025 Median</div><div class="yoy-val y25">~50 sec</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026 Median</div><div class="yoy-val y26">~22 sec</div></div>
+            </div>
+          </div>
+
+          <div class="insight-row added">
+            <span class="insight-tag added">ADDED</span>
+            <div class="insight-h">Captions/subtitles became default</div>
+            <div class="insight-detail">
+              2025 videos often shipped without burned-in captions. 2026 standardized captions on 100% of video — addressing the 85%+ sound-off viewing reality on Meta placements.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025</div><div class="yoy-val y25">~30% captioned</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026</div><div class="yoy-val y26">100% captioned</div></div>
+            </div>
+          </div>
+
+          <div class="insight-row added">
+            <span class="insight-tag added">ADDED</span>
+            <div class="insight-h">Testing methodology became Hook × Visual matrix</div>
+            <div class="insight-detail">
+              2025 ran loose A/B tests (image A vs B, copy A vs B). 2026 introduced the Hook Matrix — every concept produces 9 variants from 3 Visual hooks × 3 Verbal hooks, with caption variants layered on top.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025</div><div class="yoy-val y25">2-variant A/B</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026</div><div class="yoy-val y26">9-variant matrix</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="diagram-card">
+          <div class="diagram-title">Ad Category Coverage · the 11-category taxonomy</div>
+          <div class="diagram-sub">Wise Advertisement's universal ad categories — concept count active in each per year</div>
+          <svg class="diagram-canvas" id="diagram-cats" viewBox="0 0 800 380" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="legend-row">
+            <div class="legend-item"><span class="legend-swatch" style="background:#fbbf24"></span>2025</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#2dd4bf"></span>2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: FUNNEL ═══ -->
+    <div class="page" id="page-funnel">
+      <div class="section-block">
+        <div class="section-header">
+          <div class="section-title-block">
+            <h2>Funnel Architecture</h2>
+            <p>From broadcast to sequenced exposure — TOF / MOF / BOF / RT evolution</p>
+          </div>
+          <div class="section-meta">Dimensions 06 · 11</div>
+        </div>
+
+        <div class="diagram-grid">
+          <div class="funnel-viz">
+            <div class="funnel-viz-title">2025 Funnel · single-layer</div>
+            <div class="funnel-viz-sub">One broad prospecting campaign serving all stages with the same audience</div>
+            <div class="funnel-shape">
+              <div class="funnel-tier tier-tof tier-w-100">
+                <div>
+                  <div class="tier-label">TOF · PROSPECT</div>
+                  <div class="tier-name">Broad Leads Campaign</div>
+                  <div class="tier-detail">Generic interest + geo targeting</div>
+                </div>
+              </div>
+              <div class="funnel-tier tier-empty tier-w-85">
+                <div>
+                  <div class="tier-label">MOF</div>
+                  <div class="tier-name">No dedicated MOF stage</div>
+                </div>
+              </div>
+              <div class="funnel-tier tier-bof tier-w-70">
+                <div>
+                  <div class="tier-label">BOF · OFFER</div>
+                  <div class="tier-name">Same campaign, "limited offer" creative</div>
+                  <div class="tier-detail">Mixed in with cold audience</div>
+                </div>
+              </div>
+              <div class="funnel-tier tier-empty tier-w-55">
+                <div>
+                  <div class="tier-label">RT · RETARGET</div>
+                  <div class="tier-name">No dedicated RT layer</div>
+                </div>
+              </div>
+              <div class="funnel-tier tier-empty tier-w-40">
+                <div>
+                  <div class="tier-label">EXC · EXCLUSIONS</div>
+                  <div class="tier-name">No converter exclusions</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="funnel-viz">
+            <div class="funnel-viz-title">2026 Funnel · layered & sequenced</div>
+            <div class="funnel-viz-sub">Stratified TOF → MOF → BOF with dedicated RT and exclusion logic</div>
+            <div class="funnel-shape">
+              <div class="funnel-tier tier-tof tier-w-100">
+                <div>
+                  <div class="tier-label">TOF · PROSPECT</div>
+                  <div class="tier-name">Cold Engagement + Cold Leads</div>
+                  <div class="tier-detail">Educational video + before/after</div>
+                </div>
+              </div>
+              <div class="funnel-tier tier-mof tier-w-85">
+                <div>
+                  <div class="tier-label">MOF · NURTURE</div>
+                  <div class="tier-name">Testimonial + Founder Story</div>
+                  <div class="tier-detail">Video-view 25–50% custom audience</div>
+                </div>
+              </div>
+              <div class="funnel-tier tier-bof tier-w-70">
+                <div>
+                  <div class="tier-label">BOF · CONVERT</div>
+                  <div class="tier-name">Sales + Lead Form (Offer-stage)</div>
+                  <div class="tier-detail">Site-visitor + 75%+ video-view</div>
+                </div>
+              </div>
+              <div class="funnel-tier tier-rt tier-w-55">
+                <div>
+                  <div class="tier-label">RT · CATALOG</div>
+                  <div class="tier-name">Dynamic catalog ads</div>
+                  <div class="tier-detail">Browsed-product retargeting</div>
+                </div>
+              </div>
+              <div class="funnel-tier tier-exc tier-w-40">
+                <div>
+                  <div class="tier-label">EXC</div>
+                  <div class="tier-name">Converters excluded from TOF/MOF</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="insight-grid one">
+          <div class="insight-row added">
+            <span class="insight-tag added">FUNNEL EVOLUTION</span>
+            <div class="insight-h">Same audience saw the same creative all year long in 2025 — that ended in 2026</div>
+            <div class="insight-detail">
+              In 2025, a cold viewer and a 5-time site visitor were essentially in the same audience pool, seeing the same ads, with no exclusion lists configured. In 2026 each stage has its own campaign, its own creative purpose, and its own exclusion rules — converters drop out of TOF, video-completers move into MOF retargeting, site visitors become the BOF + catalog audience.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: AUDIENCE ═══ -->
+    <div class="page" id="page-audience">
+      <div class="section-block">
+        <div class="section-header">
+          <div class="section-title-block">
+            <h2>Audience & Targeting Strategy</h2>
+            <p>From broad interest stacking to engagement-based custom audiences</p>
+          </div>
+          <div class="section-meta">Dimension 07</div>
+        </div>
+
+        <div class="diagram-card">
+          <div class="diagram-title">Audience Composition · types used per year</div>
+          <div class="diagram-sub">Distribution of audience types in active ad sets</div>
+          <svg class="diagram-canvas" id="diagram-audience" viewBox="0 0 800 380" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+
+        <div class="delta-summary">
+          <div class="delta-row header">
+            <div>Status</div>
+            <div>Audience Type</div>
+            <div>2025</div>
+            <div style="text-align:right;">2026</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag added">EXPANDED</span></div>
+            <div>
+              <div class="delta-feature">Broad / Advantage+ Audiences</div>
+              <div class="delta-feature-sub">Meta's auto-targeted audience</div>
+            </div>
+            <div class="delta-cell y25"><span class="check">✓</span> Primary cold audience</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> TOF only, with exclusions</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag shifted">SHIFTED</span></div>
+            <div>
+              <div class="delta-feature">Interest-Stacked Audiences</div>
+              <div class="delta-feature-sub">Layered interests (home improvement, renovation, etc.)</div>
+            </div>
+            <div class="delta-cell y25"><span class="check">✓</span> Many overlapping stacks</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Consolidated, fewer & broader</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag new">NEW</span></div>
+            <div>
+              <div class="delta-feature">Engagement Custom Audiences</div>
+              <div class="delta-feature-sub">Video viewers, page engagers, IG profile visitors</div>
+            </div>
+            <div class="delta-cell y25"><span class="x">✕</span> Not configured</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Video 25/50/75%, FB+IG engagers</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag new">NEW</span></div>
+            <div>
+              <div class="delta-feature">Website Custom Audiences (Pixel)</div>
+              <div class="delta-feature-sub">Site visitors segmented by page / event</div>
+            </div>
+            <div class="delta-cell y25"><span class="x">✕</span> Pixel installed but audience not used</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> All-visitors, page-specific, deep-funnel</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag new">NEW</span></div>
+            <div>
+              <div class="delta-feature">CRM Custom Audiences (Customer List Upload)</div>
+              <div class="delta-feature-sub">Hashed customer / lead data uploaded for matching</div>
+            </div>
+            <div class="delta-cell y25"><span class="x">✕</span> Not used</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Customer & lead lists uploaded</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag new">NEW</span></div>
+            <div>
+              <div class="delta-feature">Lookalike Audiences</div>
+              <div class="delta-feature-sub">LAL built off customer / pixel events</div>
+            </div>
+            <div class="delta-cell y25"><span class="x">✕</span> Not built</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> 1–3% LAL of converters & visitors</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag new">NEW</span></div>
+            <div>
+              <div class="delta-feature">Audience Exclusions</div>
+              <div class="delta-feature-sub">Excluding converters / current customers from cold</div>
+            </div>
+            <div class="delta-cell y25"><span class="x">✕</span> No exclusion lists configured</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> Customer + converter exclusion lists active</div>
+          </div>
+
+          <div class="delta-row">
+            <div><span class="delta-tag added">EXPANDED</span></div>
+            <div>
+              <div class="delta-feature">Geo Targeting Granularity</div>
+              <div class="delta-feature-sub">Country / state / city / radius</div>
+            </div>
+            <div class="delta-cell y25"><span class="check">✓</span> California-wide / broad regions</div>
+            <div class="delta-cell y26" style="text-align:right;"><span class="check">✓</span> City + radius targeting per service area</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: HOOKS ═══ -->
+    <div class="page" id="page-hooks">
+      <div class="section-block">
+        <div class="section-header">
+          <div class="section-title-block">
+            <h2>Hooks · UGC · Messaging & Offer Frames</h2>
+            <p>The creative inputs — how concepts were built, what they said, who said it</p>
+          </div>
+          <div class="section-meta">Dimensions 05 · 12 · 13 · 14</div>
+        </div>
+
+        <div class="diagram-card">
+          <div class="diagram-title">3-Hook Rule application · Visual + Text-on-Screen + Verbal</div>
+          <div class="diagram-sub">Compliance with the agency Hook System across each year's videos</div>
+          <svg class="diagram-canvas" id="diagram-hooks" viewBox="0 0 800 280" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+
+        <div class="insight-grid">
+          <div class="insight-row added">
+            <span class="insight-tag added">EVOLVED</span>
+            <div class="insight-h">Messaging shifted from rational-only to emotional + rational blend</div>
+            <div class="insight-detail">
+              2025 was predominantly rational: features (energy efficiency, soundproofing), price points, "20% off" headlines. 2026 introduced emotional angles — pride of ownership, the family safety frame, the "finally got the doors my mom always wanted" narrative — alongside the rational stack.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025 Mix</div><div class="yoy-val y25">~85% rational / 15% emotional</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026 Mix</div><div class="yoy-val y26">~55% rational / 45% emotional</div></div>
+            </div>
+          </div>
+
+          <div class="insight-row added">
+            <span class="insight-tag added">EXPANDED</span>
+            <div class="insight-h">UGC sourcing went from owner-only to multi-source</div>
+            <div class="insight-detail">
+              2025 UGC was mostly owner-on-camera. 2026 added customer-filmed install reveals, creator-sourced authentic reviews, and the AI-avatar track for scaled script delivery — three production tracks running in parallel.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025</div><div class="yoy-val y25">1 source (owner)</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026</div><div class="yoy-val y26">4 sources (owner, customer, creator, AI)</div></div>
+            </div>
+          </div>
+
+          <div class="insight-row added">
+            <span class="insight-tag added">EVOLVED</span>
+            <div class="insight-h">Offer presentation moved from blunt % off to layered value-stack</div>
+            <div class="insight-detail">
+              2025 offers were single-line ("20% off" or "$500 off"). 2026 offers stack: discount + financing + free consultation + permit assistance + warranty — letting the offer scale to the prospect's stage and price sensitivity.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025</div><div class="yoy-val y25">Single-line offer</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026</div><div class="yoy-val y26">Stacked value bundle</div></div>
+            </div>
+          </div>
+
+          <div class="insight-row new">
+            <span class="insight-tag new">NEW</span>
+            <div class="insight-h">Urgency framing became seasonally calendared</div>
+            <div class="insight-detail">
+              2025 urgency was ad-hoc ("limited time"). 2026 ran a holiday calendar — Memorial Day, July 4th, Labor Day, Black Friday, End-of-Year — each with its own offer window, asset set, and ad copy framing.
+            </div>
+            <div class="insight-yoy">
+              <div class="yoy-side"><div class="yoy-label">2025</div><div class="yoy-val y25">~1 calendared push</div></div>
+              <div class="yoy-arrow">→</div>
+              <div class="yoy-side"><div class="yoy-label">2026</div><div class="yoy-val y26">5+ calendared pushes</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: FINDINGS ═══ -->
+    <div class="page" id="page-findings">
+      <div class="section-block">
+        <div class="section-header">
+          <div class="section-title-block">
+            <h2>Findings, Weaknesses & Roadmap</h2>
+            <p>What was earned · what's still missing · what to do next</p>
+          </div>
+          <div class="section-meta">Δ Synthesis</div>
+        </div>
+
+        <h3 style="font-size: 13px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin: 24px 0 12px; font-family: 'JetBrains Mono', monospace;">Wins · what 2026 got right</h3>
+        <div class="insight-grid three">
+          <div class="insight-row added">
+            <span class="insight-tag added">WIN</span>
+            <div class="insight-h">Catalog-driven retargeting layer</div>
+            <div class="insight-detail">Adding the product catalog and using dynamic catalog ads at the BOF/RT layer is the single highest-leverage addition. It lets Meta personalize SKU exposure by viewer signal.</div>
+          </div>
+          <div class="insight-row added">
+            <span class="insight-tag added">WIN</span>
+            <div class="insight-h">Sales objective unlocked deeper bidding</div>
+            <div class="insight-detail">OUTCOME_SALES with pixel + CAPI gives Meta a richer optimization signal than form-fill alone — letting the algorithm hunt actual quote-readiness rather than vanity leads.</div>
+          </div>
+          <div class="insight-row added">
+            <span class="insight-tag added">WIN</span>
+            <div class="insight-h">Audience exclusions in place</div>
+            <div class="insight-detail">Converter-exclusion lists stop the same person from seeing the same TOF ad ten times after they've already become a customer — a hygiene fix that was completely absent in 2025.</div>
+          </div>
+        </div>
+
+        <h3 style="font-size: 13px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin: 32px 0 12px; font-family: 'JetBrains Mono', monospace;">Weaknesses still remaining</h3>
+        <div class="insight-grid three">
+          <div class="insight-row removed">
+            <span class="insight-tag removed">GAP</span>
+            <div class="insight-h">Testimonial inventory is still thin</div>
+            <div class="insight-detail">Even with creator-sourced + customer content added in 2026, the testimonial library is small relative to other verticals. MOF retargeting is bottlenecked by repeat-exposure of the same 3–4 testimonials.</div>
+          </div>
+          <div class="insight-row removed">
+            <span class="insight-tag removed">GAP</span>
+            <div class="insight-h">LP message-match isn't audited per concept</div>
+            <div class="insight-detail">Many 2026 ads still point to a generic homepage rather than concept-matched LPs. Meta ad headlines and LP heroes diverge — a known conversion-rate killer.</div>
+          </div>
+          <div class="insight-row removed">
+            <span class="insight-tag removed">GAP</span>
+            <div class="insight-h">CAPI deduplication isn't verified</div>
+            <div class="insight-detail">Both pixel and CAPI fire — but without proper event_id deduplication, OUTCOME_SALES optimization may be ingesting double-counted events, hurting bidding signal quality.</div>
+          </div>
+        </div>
+
+        <h3 style="font-size: 13px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin: 32px 0 12px; font-family: 'JetBrains Mono', monospace;">Roadmap · what to do next</h3>
+        <div class="delta-summary">
+          <div class="delta-row header">
+            <div>Priority</div>
+            <div>Initiative</div>
+            <div>Why it matters</div>
+            <div style="text-align:right;">Owner</div>
+          </div>
+          <div class="delta-row">
+            <div><span class="delta-tag removed">P0</span></div>
+            <div><div class="delta-feature">Verify CAPI event deduplication</div></div>
+            <div class="delta-cell">Stops double-counting from breaking OUTCOME_SALES optimization. Use Events Manager → Test Events. Quick win.</div>
+            <div class="delta-cell mono" style="text-align:right;">Web + Ops</div>
+          </div>
+          <div class="delta-row">
+            <div><span class="delta-tag removed">P0</span></div>
+            <div><div class="delta-feature">Build out testimonial library (20+ in 90 days)</div></div>
+            <div class="delta-cell">MOF retargeting can't scale without fresh testimonial inventory. Use customer-filmed install reveals + creator partnerships.</div>
+            <div class="delta-cell mono" style="text-align:right;">Creative</div>
+          </div>
+          <div class="delta-row">
+            <div><span class="delta-tag shifted">P1</span></div>
+            <div><div class="delta-feature">Concept-matched landing pages</div></div>
+            <div class="delta-cell">Every approved concept ships with a matching LP (or reuses an existing one with matched hero + offer). Reuses Google Ads LP system.</div>
+            <div class="delta-cell mono" style="text-align:right;">Web + Media</div>
+          </div>
+          <div class="delta-row">
+            <div><span class="delta-tag shifted">P1</span></div>
+            <div><div class="delta-feature">Expand catalog (more SKUs, seasonal sets)</div></div>
+            <div class="delta-cell">Catalog ads scale only as well as the feed. Add product sets per door type, finish, price tier; seasonal sets for holiday campaigns.</div>
+            <div class="delta-cell mono" style="text-align:right;">Ops + Media</div>
+          </div>
+          <div class="delta-row">
+            <div><span class="delta-tag added">P2</span></div>
+            <div><div class="delta-feature">Quarterly creative diversity scorecard</div></div>
+            <div class="delta-cell">Track concepts shipped, categories covered (of 11), hook variations tested, format-mix index, refresh cadence. Surface at QBR.</div>
+            <div class="delta-cell mono" style="text-align:right;">Strategy</div>
+          </div>
+          <div class="delta-row">
+            <div><span class="delta-tag added">P2</span></div>
+            <div><div class="delta-feature">Owner + AI-avatar parallel production track</div></div>
+            <div class="delta-cell">Owner is the highest trust signal; AI avatar scales the same scripts to many variants without re-shooting. Run both, not either.</div>
+            <div class="delta-cell mono" style="text-align:right;">Creative + AI Ops</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const navItems = document.querySelectorAll('.nav-item');
+const pages = document.querySelectorAll('.page');
+
+navItems.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.page;
+    navItems.forEach(n => n.classList.remove('active'));
+    pages.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const targetPage = document.getElementById('page-' + target);
+    if (targetPage) {
+      targetPage.classList.add('active');
+      renderChartsForPage(target);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+function drawTypeDiagram() {
+  const svg = document.getElementById('diagram-types');
+  if (!svg) return;
+  svg.innerHTML = '';
+  const W = 800, H = 480;
+
+  const items = [
+    { label: 'Lead Form Campaign', y25: 'on', y26: 'on' },
+    { label: 'Sales / Purchase Campaign', y25: 'off', y26: 'on' },
+    { label: 'Catalog / Dynamic Ads', y25: 'off', y26: 'on' },
+    { label: 'Collection Ads', y25: 'off', y26: 'on' },
+    { label: 'Engagement Campaign (warm builder)', y25: 'off', y26: 'on' },
+    { label: 'Traffic Campaign', y25: 'on', y26: 'on' },
+    { label: 'Awareness / Reach', y25: 'on', y26: 'off' },
+    { label: 'Retargeting (Dedicated)', y25: 'off', y26: 'on' },
+    { label: 'Video-View Custom Audience RT', y25: 'off', y26: 'on' },
+    { label: 'Carousel Ads', y25: 'partial', y26: 'on' },
+    { label: 'Holiday / Seasonal Campaigns', y25: 'partial', y26: 'on' },
+    { label: 'Localized / Geo-Specific', y25: 'partial', y26: 'on' }
+  ];
+
+  const colW = 130;
+  const startX = 380;
+  const rowH = (H - 50) / items.length;
+  const startY = 30;
+
+  svg.innerHTML += `<text x="${startX + colW/2}" y="20" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="700" font-family="JetBrains Mono">2025</text>`;
+  svg.innerHTML += `<text x="${startX + colW + colW/2}" y="20" text-anchor="middle" fill="#2dd4bf" font-size="13" font-weight="700" font-family="JetBrains Mono">2026</text>`;
+
+  items.forEach((item, i) => {
+    const y = startY + i * rowH;
+    const cy = y + rowH / 2;
+
+    if (i > 0) svg.innerHTML += `<line x1="20" y1="${y}" x2="${W - 20}" y2="${y}" stroke="#232b37" stroke-width="1"/>`;
+
+    svg.innerHTML += `<text x="20" y="${cy + 4}" fill="#e8ecef" font-size="12" font-weight="500">${item.label}</text>`;
+
+    drawCell(svg, startX, cy, colW, item.y25, '#fbbf24');
+    drawCell(svg, startX + colW, cy, colW, item.y26, '#2dd4bf');
+  });
+}
+
+function drawCell(svg, x, cy, w, state, color) {
+  const cellW = 100, cellH = 22;
+  const cellX = x + (w - cellW) / 2;
+  const cellY = cy - cellH / 2;
+
+  if (state === 'on') {
+    svg.innerHTML += `<rect x="${cellX}" y="${cellY}" width="${cellW}" height="${cellH}" fill="${color}" opacity="0.18" stroke="${color}" stroke-width="1" rx="4"/>`;
+    svg.innerHTML += `<text x="${cellX + cellW/2}" y="${cellY + 15}" text-anchor="middle" fill="${color}" font-size="11" font-weight="600" font-family="JetBrains Mono">✓ ACTIVE</text>`;
+  } else if (state === 'partial') {
+    svg.innerHTML += `<rect x="${cellX}" y="${cellY}" width="${cellW}" height="${cellH}" fill="${color}" opacity="0.08" stroke="${color}" stroke-width="1" stroke-dasharray="3 3" rx="4"/>`;
+    svg.innerHTML += `<text x="${cellX + cellW/2}" y="${cellY + 15}" text-anchor="middle" fill="${color}" font-size="11" font-weight="600" font-family="JetBrains Mono">~ LIGHT</text>`;
+  } else {
+    svg.innerHTML += `<rect x="${cellX}" y="${cellY}" width="${cellW}" height="${cellH}" fill="#1d2530" stroke="#2c3543" stroke-width="1" rx="4"/>`;
+    svg.innerHTML += `<text x="${cellX + cellW/2}" y="${cellY + 15}" text-anchor="middle" fill="#6b7480" font-size="11" font-weight="600" font-family="JetBrains Mono">✕ NONE</text>`;
+  }
+}
+
+function drawFormatChart() {
+  const svg = document.getElementById('diagram-formats');
+  if (!svg) return;
+  svg.innerHTML = '';
+  const W = 800, H = 280;
+  const padL = 60, padR = 30, padT = 30, padB = 50;
+  const categories = [
+    { cat: 'Static Image', y25: 55, y26: 22 },
+    { cat: 'Video 9:16', y25: 12, y26: 38 },
+    { cat: 'Video 1:1', y25: 18, y26: 22 },
+    { cat: 'Carousel', y25: 12, y26: 14 },
+    { cat: 'Catalog/Collection', y25: 0, y26: 4 },
+    { cat: 'Other', y25: 3, y26: 0 }
+  ];
+  const groupWidth = (W - padL - padR) / categories.length;
+  const barWidth = (groupWidth - 18) / 2;
+
+  for (let i = 0; i <= 4; i++) {
+    const y = padT + ((H - padT - padB) * i) / 4;
+    const val = 60 - i * 15;
+    svg.innerHTML += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#232b37" stroke-width="1" stroke-dasharray="2 4"/>`;
+    svg.innerHTML += `<text x="${padL - 8}" y="${y + 4}" text-anchor="end" fill="#6b7480" font-size="10" font-family="JetBrains Mono">${val}%</text>`;
+  }
+
+  const maxY = 60;
+  categories.forEach((d, i) => {
+    const groupX = padL + i * groupWidth + 9;
+    const h25 = (d.y25 / maxY) * (H - padT - padB);
+    const h26 = (d.y26 / maxY) * (H - padT - padB);
+    const y25 = H - padB - h25;
+    const y26 = H - padB - h26;
+
+    if (h25 > 0) {
+      svg.innerHTML += `<rect x="${groupX}" y="${y25}" width="${barWidth}" height="${h25}" fill="#fbbf24" opacity="0.85" rx="3"/>`;
+      svg.innerHTML += `<text x="${groupX + barWidth/2}" y="${y25 - 6}" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="600" font-family="JetBrains Mono">${d.y25}%</text>`;
+    }
+    if (h26 > 0) {
+      svg.innerHTML += `<rect x="${groupX + barWidth + 6}" y="${y26}" width="${barWidth}" height="${h26}" fill="#2dd4bf" opacity="0.95" rx="3"/>`;
+      svg.innerHTML += `<text x="${groupX + barWidth + 6 + barWidth/2}" y="${y26 - 6}" text-anchor="middle" fill="#2dd4bf" font-size="10" font-weight="600" font-family="JetBrains Mono">${d.y26}%</text>`;
+    }
+    svg.innerHTML += `<text x="${groupX + barWidth + 3}" y="${H - padB + 20}" text-anchor="middle" fill="#a4adb8" font-size="11" font-weight="500">${d.cat}</text>`;
+  });
+}
+
+function drawCatsChart() {
+  const svg = document.getElementById('diagram-cats');
+  if (!svg) return;
+  svg.innerHTML = '';
+  const W = 800, H = 380;
+  const padL = 130, padR = 50, padT = 20, padB = 30;
+  const cats = [
+    { code: 'EDU', name: 'Educational', y25: 2, y26: 5 },
+    { code: 'EMO', name: 'Emotional', y25: 0, y26: 4 },
+    { code: 'CMP', name: 'Comparison', y25: 1, y26: 3 },
+    { code: 'BTS', name: 'Behind-the-scenes', y25: 0, y26: 2 },
+    { code: 'TST', name: 'Testimonial', y25: 1, y26: 4 },
+    { code: 'DOC', name: 'Documentary', y25: 0, y26: 2 },
+    { code: 'TRN', name: 'Trend/Transformation', y25: 2, y26: 5 },
+    { code: 'FAQ', name: 'FAQ/Objection', y25: 0, y26: 3 },
+    { code: 'OFR', name: 'Offer', y25: 4, y26: 6 },
+    { code: 'URG', name: 'Urgency', y25: 1, y26: 5 },
+    { code: 'FIN', name: 'Financing', y25: 0, y26: 2 }
+  ];
+  const rowH = (H - padT - padB) / cats.length;
+  const maxVal = 7;
+  const chartW = W - padL - padR;
+
+  cats.forEach((c, i) => {
+    const y = padT + i * rowH;
+    const cy = y + rowH / 2;
+    svg.innerHTML += `<text x="${padL - 10}" y="${cy + 2}" text-anchor="end" fill="#e8ecef" font-size="11" font-weight="600" font-family="JetBrains Mono">${c.code}</text>`;
+    svg.innerHTML += `<text x="${padL - 10}" y="${cy + 14}" text-anchor="end" fill="#6b7480" font-size="9">${c.name}</text>`;
+
+    const w25 = (c.y25 / maxVal) * chartW;
+    if (w25 > 0) {
+      svg.innerHTML += `<rect x="${padL}" y="${cy - 9}" width="${w25}" height="8" fill="#fbbf24" opacity="0.85" rx="2"/>`;
+      svg.innerHTML += `<text x="${padL + w25 + 4}" y="${cy - 2}" fill="#fbbf24" font-size="10" font-weight="600" font-family="JetBrains Mono">${c.y25}</text>`;
+    } else {
+      svg.innerHTML += `<rect x="${padL}" y="${cy - 9}" width="6" height="8" fill="#1d2530" rx="2"/>`;
+      svg.innerHTML += `<text x="${padL + 10}" y="${cy - 2}" fill="#6b7480" font-size="10" font-family="JetBrains Mono">0</text>`;
+    }
+
+    const w26 = (c.y26 / maxVal) * chartW;
+    if (w26 > 0) {
+      svg.innerHTML += `<rect x="${padL}" y="${cy + 2}" width="${w26}" height="8" fill="#2dd4bf" opacity="0.95" rx="2"/>`;
+      svg.innerHTML += `<text x="${padL + w26 + 4}" y="${cy + 9}" fill="#2dd4bf" font-size="10" font-weight="600" font-family="JetBrains Mono">${c.y26}</text>`;
+    } else {
+      svg.innerHTML += `<rect x="${padL}" y="${cy + 2}" width="6" height="8" fill="#1d2530" rx="2"/>`;
+    }
+  });
+}
+
+function drawAudienceChart() {
+  const svg = document.getElementById('diagram-audience');
+  if (!svg) return;
+  svg.innerHTML = '';
+
+  const y25Center = { x: 200, y: 160, r: 110 };
+  const y26Center = { x: 600, y: 160, r: 110 };
+
+  const y25Data = [
+    { label: 'Broad/Advantage+', val: 60, color: '#fbbf24' },
+    { label: 'Interest Stacks', val: 35, color: '#fb923c' },
+    { label: 'Engagement CA', val: 0, color: '#a78bfa' },
+    { label: 'Website CA', val: 0, color: '#60a5fa' },
+    { label: 'CRM CA', val: 0, color: '#4ade80' },
+    { label: 'Lookalike', val: 0, color: '#f87171' },
+    { label: 'Other', val: 5, color: '#6b7480' }
+  ];
+  const y26Data = [
+    { label: 'Broad/Advantage+', val: 30, color: '#2dd4bf' },
+    { label: 'Interest Stacks', val: 15, color: '#fb923c' },
+    { label: 'Engagement CA', val: 18, color: '#a78bfa' },
+    { label: 'Website CA', val: 17, color: '#60a5fa' },
+    { label: 'CRM CA', val: 8, color: '#4ade80' },
+    { label: 'Lookalike', val: 10, color: '#f87171' },
+    { label: 'Other', val: 2, color: '#6b7480' }
+  ];
+
+  drawDonut(svg, y25Center, y25Data, '2025');
+  drawDonut(svg, y26Center, y26Data, '2026');
+
+  // Legend in two columns
+  const legendY = 320;
+  const legendItems = y26Data;
+  const cols = 4;
+  const colW = (800 - 60) / cols;
+  legendItems.forEach((d, i) => {
+    const row = Math.floor(i / cols);
+    const col = i % cols;
+    const x = 30 + col * colW;
+    const y = legendY + row * 18;
+    svg.innerHTML += `<rect x="${x}" y="${y - 6}" width="10" height="10" fill="${d.color}" rx="2"/>`;
+    svg.innerHTML += `<text x="${x + 14}" y="${y + 2}" fill="#a4adb8" font-size="10" font-family="JetBrains Mono">${d.label}</text>`;
+  });
+}
+
+function drawDonut(svg, c, data, label) {
+  const total = data.reduce((sum, d) => sum + d.val, 0);
+  if (total === 0) {
+    svg.innerHTML += `<circle cx="${c.x}" cy="${c.y}" r="${c.r}" fill="none" stroke="#232b37" stroke-width="22"/>`;
+    svg.innerHTML += `<text x="${c.x}" y="${c.y + 5}" text-anchor="middle" fill="#6b7480" font-size="14">Empty</text>`;
+    svg.innerHTML += `<text x="${c.x}" y="${c.y + c.r + 26}" text-anchor="middle" fill="${label === '2025' ? '#fbbf24' : '#2dd4bf'}" font-size="14" font-weight="700" font-family="JetBrains Mono">${label}</text>`;
+    return;
+  }
+
+  let cumAngle = -Math.PI / 2;
+  data.forEach(d => {
+    if (d.val === 0) return;
+    const angle = (d.val / total) * 2 * Math.PI;
+    const endAngle = cumAngle + angle;
+    const largeArc = angle > Math.PI ? 1 : 0;
+    const x1 = c.x + c.r * Math.cos(cumAngle);
+    const y1 = c.y + c.r * Math.sin(cumAngle);
+    const x2 = c.x + c.r * Math.cos(endAngle);
+    const y2 = c.y + c.r * Math.sin(endAngle);
+    const innerR = c.r - 26;
+    const x3 = c.x + innerR * Math.cos(endAngle);
+    const y3 = c.y + innerR * Math.sin(endAngle);
+    const x4 = c.x + innerR * Math.cos(cumAngle);
+    const y4 = c.y + innerR * Math.sin(cumAngle);
+
+    const path = `M ${x1} ${y1} A ${c.r} ${c.r} 0 ${largeArc} 1 ${x2} ${y2} L ${x3} ${y3} A ${innerR} ${innerR} 0 ${largeArc} 0 ${x4} ${y4} Z`;
+    svg.innerHTML += `<path d="${path}" fill="${d.color}" opacity="0.92"/>`;
+
+    cumAngle = endAngle;
+  });
+
+  svg.innerHTML += `<text x="${c.x}" y="${c.y - 4}" text-anchor="middle" fill="#e8ecef" font-size="14" font-weight="700">${data.filter(d => d.val > 0).length} types</text>`;
+  svg.innerHTML += `<text x="${c.x}" y="${c.y + 14}" text-anchor="middle" fill="#6b7480" font-size="10" font-family="JetBrains Mono">in use</text>`;
+  svg.innerHTML += `<text x="${c.x}" y="${c.y + c.r + 26}" text-anchor="middle" fill="${label === '2025' ? '#fbbf24' : '#2dd4bf'}" font-size="14" font-weight="700" font-family="JetBrains Mono">${label}</text>`;
+}
+
+function drawHooksChart() {
+  const svg = document.getElementById('diagram-hooks');
+  if (!svg) return;
+  svg.innerHTML = '';
+  const W = 800, H = 280;
+  const padL = 180, padR = 80, padT = 30, padB = 50;
+
+  const data = [
+    { label: 'Visual Hook (first frame)', y25: 25, y26: 95 },
+    { label: 'Text-on-Screen Hook', y25: 10, y26: 90 },
+    { label: 'Verbal Hook (script)', y25: 60, y26: 95 },
+    { label: 'Triple-Hook Compliant', y25: 5, y26: 80 }
+  ];
+
+  const rowH = (H - padT - padB) / data.length;
+  const chartW = W - padL - padR;
+
+  data.forEach((d, i) => {
+    const y = padT + i * rowH;
+    const cy = y + rowH / 2;
+
+    svg.innerHTML += `<text x="${padL - 12}" y="${cy + 4}" text-anchor="end" fill="#e8ecef" font-size="11" font-weight="500">${d.label}</text>`;
+
+    svg.innerHTML += `<rect x="${padL}" y="${cy - 12}" width="${chartW}" height="10" fill="#1d2530" rx="5"/>`;
+    svg.innerHTML += `<rect x="${padL}" y="${cy + 2}" width="${chartW}" height="10" fill="#1d2530" rx="5"/>`;
+
+    const w25 = (d.y25 / 100) * chartW;
+    svg.innerHTML += `<rect x="${padL}" y="${cy - 12}" width="${w25}" height="10" fill="#fbbf24" opacity="0.9" rx="5"/>`;
+    svg.innerHTML += `<text x="${padL + chartW + 8}" y="${cy - 4}" fill="#fbbf24" font-size="10" font-weight="600" font-family="JetBrains Mono">${d.y25}%</text>`;
+
+    const w26 = (d.y26 / 100) * chartW;
+    svg.innerHTML += `<rect x="${padL}" y="${cy + 2}" width="${w26}" height="10" fill="#2dd4bf" opacity="0.95" rx="5"/>`;
+    svg.innerHTML += `<text x="${padL + chartW + 8}" y="${cy + 10}" fill="#2dd4bf" font-size="10" font-weight="600" font-family="JetBrains Mono">${d.y26}%</text>`;
+  });
+
+  svg.innerHTML += `<rect x="${padL}" y="${H - 24}" width="12" height="10" fill="#fbbf24" opacity="0.9" rx="3"/>`;
+  svg.innerHTML += `<text x="${padL + 18}" y="${H - 15}" fill="#a4adb8" font-size="11" font-family="JetBrains Mono">2025</text>`;
+  svg.innerHTML += `<rect x="${padL + 80}" y="${H - 24}" width="12" height="10" fill="#2dd4bf" opacity="0.95" rx="3"/>`;
+  svg.innerHTML += `<text x="${padL + 98}" y="${H - 15}" fill="#a4adb8" font-size="11" font-family="JetBrains Mono">2026</text>`;
+}
+
+function renderChartsForPage(page) {
+  if (page === 'overview') drawTypeDiagram();
+  if (page === 'creative') { drawFormatChart(); drawCatsChart(); }
+  if (page === 'audience') drawAudienceChart();
+  if (page === 'hooks') drawHooksChart();
+}
+
+drawTypeDiagram();
+drawFormatChart();
+drawCatsChart();
+drawAudienceChart();
+drawHooksChart();
+</script>
+
+</body>
+</html>
