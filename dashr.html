@@ -154,7 +154,8 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
   <div class="topbar">
     <div>
       <h1>Performance Report — My Dental & Implants</h1>
-      <div class="sub" id="subtitle" data-build="2026-06-11 16:55"></div>
+      <div class="sub" id="subtitle"></div>
+      <div style="font-size:12px;color:#9f7;margin-top:2px;font-weight:600">✅ Build v19 · 2026-06-17 11:58 · June modal fixed</div>
     </div>
     <div class="statcells">
       <div class="statcell"><div class="lab">Spend</div><div class="val" id="hdr-spend">—</div></div>
@@ -574,14 +575,34 @@ function renderPipeChan(){
 
 /* ============ modal ============ */
 function openModal(ch){
-  const det=COMPACT.paid_leads_with_revenue[ch]||[];
-  const f=fromStr,t=toStr;
-  const rows=det.filter(d=>d.date>=f&&d.date<=t&&d.revenue>0).sort((a,b)=>b.revenue-a.revenue);
-  document.getElementById('modalTitle').textContent=ch+' — patients with revenue';
-  let h='<thead><tr><th>Name</th><th>Phone</th><th>Stage</th><th>Source</th><th>Date</th><th class="num">Revenue</th></tr></thead><tbody>';
-  rows.forEach(d=>{h+='<tr><td>'+d.name+'</td><td>'+d.phone+'</td><td>'+d.stage+'</td><td>'+d.source+'</td><td>'+d.date+'</td><td class="num">'+fmt$(d.revenue)+(d.estimated?'<span class="est">est.</span>':'')+'</td></tr>';});
-  h+='</tbody>';document.getElementById('modalTable').innerHTML=h;
+  try{
+  var det=(COMPACT.paid_leads_with_revenue&&COMPACT.paid_leads_with_revenue[ch])||[];
+  var fromEl=document.getElementById('from'), toEl=document.getElementById('to');
+  var f=((fromEl&&fromEl.value)||fromStr||'').slice(0,10);
+  var t=((toEl&&toEl.value)||toStr||'').slice(0,10);
+  var hasBounds = !!(f || t);
+  var withRev=det.filter(function(d){return Number(d.revenue)>0;});
+  var rows=withRev.filter(function(d){
+    var ds=(d.date||'').slice(0,10);
+    if(!ds) return true;
+    if(f && ds<f) return false;
+    if(t && ds>t) return false;
+    return true;
+  });
+  if(!hasBounds) rows=withRev;   // only show everything when there is genuinely no date filter
+  rows=rows.slice().sort(function(a,b){return Number(b.revenue)-Number(a.revenue);});
+  document.getElementById('modalTitle').textContent=ch+' — patients with revenue ('+rows.length+')';
+  var h='<thead><tr><th>Name</th><th>Phone</th><th>Stage</th><th>Source</th><th>Date</th><th class="num">Revenue</th></tr></thead><tbody>';
+  rows.forEach(function(d){h+='<tr><td>'+(d.name||'')+'</td><td>'+(d.phone||'')+'</td><td>'+(d.stage||'')+'</td><td>'+(d.source||'')+'</td><td>'+(d.date||'')+'</td><td class="num">'+fmt$(Number(d.revenue))+(d.estimated?'<span class="est">est.</span>':'')+'</td></tr>';});
+  if(!rows.length) h+='<tr><td colspan="6" style="text-align:center;padding:18px">No patients with revenue for this channel.</td></tr>';
+  h+='</tbody>';
+  document.getElementById('modalTable').innerHTML=h;
   document.getElementById('modalBg').classList.add('show');
+  }catch(err){
+    var mt=document.getElementById('modalTable');
+    if(mt) mt.innerHTML='<tbody><tr><td style="padding:18px;color:#f88">Could not load list: '+(err&&err.message?err.message:err)+'</td></tr></tbody>';
+    var bg=document.getElementById('modalBg'); if(bg) bg.classList.add('show');
+  }
 }
 document.getElementById('modalX').onclick=()=>document.getElementById('modalBg').classList.remove('show');
 document.getElementById('modalBg').onclick=e=>{if(e.target.id==='modalBg')document.getElementById('modalBg').classList.remove('show');};
