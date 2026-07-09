@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledger — collections analyzer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0B0E12; --surface:#12161B; --surface-2:#181D23; --raised:#1D2329;
+    --border:#242B32; --border-strong:#333c45;
+    --text:#ECEEF0; --text-2:#9AA4AE; --text-muted:#5E6870;
+    --amber:#E8A33D; --amber-bg:#2A2115; --amber-strong:#F3B65C;
+    --emerald:#38C793; --emerald-bg:#0F241D; --emerald-strong:#5FE0B3;
+    --coral:#E8674F; --coral-bg:#2A1712;
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif; --mono:'IBM Plex Mono',monospace;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1120px; margin:0 auto; padding:28px 24px 100px;}
+
+  .topbar{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:10px;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand .mark{width:26px; height:26px; border-radius:7px; background:var(--amber); flex:none; position:relative;}
+  .brand .mark::after{content:''; position:absolute; inset:7px 5px; border-bottom:2px solid var(--bg); border-right:2px solid var(--bg); transform:rotate(-45deg) translate(1px,-2px); width:9px; height:5px;}
+  .brand h1{font-family:var(--serif); font-weight:500; font-size:19px; margin:0; letter-spacing:.01em;}
+  .brand .tag{font-size:12px; color:var(--text-muted); margin-left:4px;}
+  .filebar{font-size:12.5px; color:var(--text-2); display:flex; align-items:center; gap:8px;}
+  .filebar button{background:none; border:none; color:var(--text-2); text-decoration:underline; cursor:pointer; font-size:12.5px; font-family:var(--sans); padding:0;}
+
+  .upload-card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:28px;}
+  .upload-card .intro{margin:0 0 22px;}
+  .upload-card .intro h2{font-family:var(--serif); font-size:24px; font-weight:500; margin:0 0 6px;}
+  .upload-card .intro p{color:var(--text-2); font-size:14.5px; margin:0; max-width:520px; line-height:1.55;}
+  .drop-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px;}
+  @media (max-width:680px){.drop-grid{grid-template-columns:1fr;}}
+  .dropzone{
+    border:1.5px dashed var(--border-strong); border-radius:var(--radius); padding:24px 18px;
+    text-align:center; cursor:pointer; transition:border-color .15s, background .15s; background:var(--surface-2);
+  }
+  .dropzone:hover{border-color:var(--amber); background:var(--amber-bg);}
+  .dropzone.filled{border-style:solid; border-color:var(--emerald); background:var(--emerald-bg);}
+  .dz-icon{width:30px; height:30px; margin:0 auto 10px; opacity:.7;}
+  .dropzone .label{font-weight:600; font-size:14px; margin-bottom:3px;}
+  .dropzone .hint{font-size:12px; color:var(--text-muted); line-height:1.5;}
+  .dropzone .filename{font-size:12.5px; color:var(--emerald-strong); font-weight:600; margin-top:8px; word-break:break-all;}
+  input[type=file]{display:none;}
+
+  .btn{
+    appearance:none; border:1px solid var(--border-strong); background:var(--surface-2); color:var(--text);
+    font-size:13.5px; font-weight:600; padding:10px 18px; border-radius:9px; cursor:pointer; font-family:var(--sans);
+    transition:background .12s, border-color .12s;
+  }
+  .btn:hover{background:var(--raised); border-color:var(--text-muted);}
+  .btn.primary{background:var(--amber); border-color:var(--amber); color:#231705;}
+  .btn.primary:hover{background:var(--amber-strong);}
+  .btn:disabled{opacity:.35; cursor:not-allowed;}
+  .btn.small{padding:7px 13px; font-size:12.5px;}
+  .btn.ghost{background:none; border-color:var(--border);}
+
+  .status{font-size:12.5px; color:var(--text-2); margin-top:14px;}
+  .status.err{color:var(--coral);}
+
+  .hidden{display:none;}
+
+  .tabs{display:flex; gap:4px; margin:28px 0 20px; border-bottom:1px solid var(--border); padding-bottom:0;}
+  .tab{
+    background:none; border:none; color:var(--text-2); font-family:var(--sans); font-size:14px; font-weight:600;
+    padding:10px 4px; margin-right:22px; cursor:pointer; border-bottom:2px solid transparent; position:relative; top:1px;
+  }
+  .tab.active{color:var(--text); border-bottom-color:var(--amber);}
+  .tab .count{font-family:var(--mono); font-size:11.5px; color:var(--text-muted); margin-left:5px;}
+
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  .hero{display:grid; grid-template-columns:1.1fr 1.4fr; gap:24px; margin-bottom:22px;}
+  @media (max-width:800px){.hero{grid-template-columns:1fr;}}
+  .hero-card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px 26px;}
+  .hero-card .eyebrow{font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); margin:0 0 10px; font-weight:600;}
+  .hero-num{font-family:var(--serif); font-size:42px; font-weight:500; margin:0; line-height:1.05; color:var(--amber-strong);}
+  .hero-sub{font-size:13px; color:var(--text-2); margin:8px 0 0;}
+  .mini-metrics{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:20px;}
+  .mini-metrics .m .l{font-size:11.5px; color:var(--text-muted); margin-bottom:3px;}
+  .mini-metrics .m .v{font-family:var(--mono); font-size:16px; font-weight:500;}
+
+  .chart-card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px 22px;}
+  .chart-card .ct-head{font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-muted); font-weight:600; margin:0 0 12px;}
+  .chart-wrap{height:180px; position:relative;}
+
+  .card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px 24px; margin-bottom:20px;}
+  .card h3{font-family:var(--serif); font-size:18px; font-weight:500; margin:0 0 4px;}
+  .card .card-sub{font-size:12.5px; color:var(--text-muted); margin:0 0 16px;}
+  .card-headrow{display:flex; align-items:flex-start; justify-content:space-between; gap:12px;}
+
+  .fav-banner{display:flex; align-items:center; gap:16px; background:var(--emerald-bg); border:1px solid #1e3f33; border-radius:12px; padding:16px 18px; margin-top:4px;}
+  .fav-banner .badge-icn{width:34px; height:34px; border-radius:9px; background:var(--emerald); flex:none; display:flex; align-items:center; justify-content:center; color:#08201a; font-weight:700; font-family:var(--mono); font-size:15px;}
+  .fav-banner .fb-text b{color:var(--emerald-strong); font-weight:600;}
+  .fav-banner .fb-text{font-size:13.5px; color:var(--text-2); line-height:1.5;}
+  .fav-empty{color:var(--text-muted); font-size:13.5px; padding:6px 0;}
+
+  .searchrow{display:flex; gap:10px; margin-bottom:14px;}
+  .searchrow input{
+    flex:1; padding:9px 14px; font-size:13px; border:1px solid var(--border); border-radius:9px;
+    font-family:var(--sans); background:var(--surface-2); color:var(--text);
+  }
+  .searchrow input:focus{outline:none; border-color:var(--amber);}
+  .searchrow input::placeholder{color:var(--text-muted);}
+
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th{
+    text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.04em; font-weight:600;
+    color:var(--text-muted); padding:8px 10px; border-bottom:1px solid var(--border);
+    position:sticky; top:0; background:var(--surface); cursor:pointer; user-select:none; white-space:nowrap;
+  }
+  th:hover{color:var(--text-2);}
+  th.sorted{color:var(--amber-strong);}
+  td{padding:8px 10px; border-bottom:1px solid var(--border); white-space:nowrap; color:var(--text-2);}
+  td.strong{color:var(--text); font-weight:500;}
+  tr:hover td{background:var(--surface-2);}
+  .num{font-family:var(--mono); text-align:right;}
+  .tablewrap{max-height:400px; overflow:auto; border:1px solid var(--border); border-radius:10px;}
+  .tag{display:inline-block; font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:20px; background:var(--emerald-bg); color:var(--emerald-strong); letter-spacing:.02em;}
+  .empty{color:var(--text-muted); font-size:13.5px; padding:26px; text-align:center;}
+
+  .dupe-list{display:flex; flex-direction:column; gap:10px;}
+  .dupe-card{border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--surface-2);}
+  .dupe-top{display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:10px;}
+  .dupe-name{font-weight:600; font-size:14px;}
+  .dupe-meta{font-size:12px; color:var(--text-muted); font-family:var(--mono);}
+  .dupe-total{font-family:var(--mono); font-size:14px; color:var(--amber-strong); font-weight:500;}
+  .timeline{position:relative; height:34px; margin:6px 2px 0;}
+  .timeline .track{position:absolute; left:0; right:0; top:16px; height:1px; background:var(--border-strong);}
+  .timeline .dot{position:absolute; top:9px; border-radius:50%; background:var(--emerald); transform:translateX(-50%);}
+  .timeline .dot .tip{
+    position:absolute; bottom:16px; left:50%; transform:translateX(-50%); font-size:10.5px; font-family:var(--mono);
+    color:var(--text-2); white-space:nowrap; opacity:0; transition:opacity .1s;
+  }
+  .timeline .dot:hover .tip{opacity:1;}
+  .dupe-dates{font-size:11.5px; color:var(--text-muted); margin-top:4px; font-family:var(--mono);}
+
+  .icn{width:16px; height:16px; display:inline-block; vertical-align:-3px; margin-right:5px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="mark"></div>
+      <h1>Ledger</h1>
+      <span class="tag">collections analyzer</span>
+    </div>
+    <div class="filebar hidden" id="filebar"></div>
+  </div>
+
+  <div class="upload-card" id="upload-card">
+    <div class="intro">
+      <h2>Drop in your files</h2>
+      <p>Add your collections export and, optionally, your patient list. Every table, match check, and chart below is generated automatically.</p>
+    </div>
+    <div class="drop-grid">
+      <div class="dropzone" id="dz-collections">
+        <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3M12 3v12M7 8l5-5 5 5"/></svg>
+        <div class="label">Collections file</div>
+        <div class="hint">Payment Date, Patient, Amount</div>
+        <div class="filename" id="fn-collections"></div>
+        <input type="file" id="file-collections" accept=".csv">
+      </div>
+      <div class="dropzone" id="dz-patients">
+        <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3M12 3v12M7 8l5-5 5 5"/></svg>
+        <div class="label">Patient file <span style="color:var(--text-muted); font-weight:400;">(optional)</span></div>
+        <div class="hint">First name, Last name, Last seen, Family annual value</div>
+        <div class="filename" id="fn-patients"></div>
+        <input type="file" id="file-patients" accept=".csv">
+      </div>
+    </div>
+    <button class="btn primary" id="run-btn" disabled>Run analysis</button>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div id="results" class="hidden">
+
+    <div class="tabs">
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="patients">Patients<span class="count" id="tab-count-patients"></span></button>
+      <button class="tab" data-tab="dupes">Repeat visits<span class="count" id="tab-count-dupes"></span></button>
+    </div>
+
+    <div class="panel active" id="panel-overview">
+      <div class="hero">
+        <div class="hero-card">
+          <p class="eyebrow">Total collected</p>
+          <p class="hero-num" id="hero-total">$0</p>
+          <p class="hero-sub" id="hero-range"></p>
+          <div class="mini-metrics">
+            <div class="m"><div class="l">Payments</div><div class="v" id="m-payments"></div></div>
+            <div class="m"><div class="l">Months</div><div class="v" id="m-months"></div></div>
+            <div class="m"><div class="l">Avg / month</div><div class="v" id="m-avg"></div></div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <p class="ct-head">Revenue by month</p>
+          <div class="chart-wrap"><canvas id="revenue-chart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="card" id="fav-card">
+        <h3>Matching metric check</h3>
+        <p class="card-sub">Which patient-file column lines up with what was actually collected.</p>
+        <div id="fav-summary"></div>
+      </div>
+
+      <div class="card">
+        <h3>Monthly breakdown</h3>
+        <p class="card-sub">Revenue, payment count, and average ticket size per month.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Month</th><th class="num">Revenue</th><th class="num">Payments</th><th class="num">Avg payment</th></tr></thead>
+            <tbody id="revenue-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-patients">
+      <div class="card">
+        <div class="card-headrow">
+          <div><h3>Patient detail</h3><p class="card-sub">Monthly paid amounts per patient, matched against the patient file.</p></div>
+          <button class="btn small" id="dl-detail">Download CSV</button>
+        </div>
+        <div class="searchrow"><input type="text" id="search-detail" placeholder="Search patient name..."></div>
+        <div class="tablewrap"><table>
+          <thead><tr id="detail-head"></tr></thead>
+          <tbody id="detail-body"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-dupes">
+      <div class="card">
+        <div class="card-headrow">
+          <div><h3>Repeat visits</h3><p class="card-sub">Patients who paid on more than one distinct date.</p></div>
+          <button class="btn small" id="dl-dupes">Download CSV</button>
+        </div>
+        <div class="searchrow"><input type="text" id="search-dupes" placeholder="Search patient name..."></div>
+        <div class="dupe-list" id="dupes-list"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let collectionsData = null, patientsData = null, collectionsFileName = '', patientsFileName = '';
+let chartInstance = null;
+let sortState = {key:'name', dir:1};
+
+function setupDropzone(dzId, inputId, fnId, onLoad, nameSetter){
+  const dz = document.getElementById(dzId), input = document.getElementById(inputId), fn = document.getElementById(fnId);
+  dz.addEventListener('click', ()=>input.click());
+  dz.addEventListener('dragover', e=>e.preventDefault());
+  dz.addEventListener('drop', e=>{ e.preventDefault(); if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
+  input.addEventListener('change', e=>{ if(e.target.files.length) handleFile(e.target.files[0]); });
+  function handleFile(file){
+    fn.textContent = file.name; dz.classList.add('filled'); nameSetter(file.name);
+    Papa.parse(file, {header:true, skipEmptyLines:true, complete: res=>{ onLoad(res.data); checkReady(); }});
+  }
+}
+function checkReady(){ document.getElementById('run-btn').disabled = !collectionsData; }
+setupDropzone('dz-collections','file-collections','fn-collections', d=>collectionsData=d, n=>collectionsFileName=n);
+setupDropzone('dz-patients','file-patients','fn-patients', d=>patientsData=d, n=>patientsFileName=n);
+document.getElementById('run-btn').addEventListener('click', run);
+
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click', ()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  document.getElementById('panel-'+t.dataset.tab).classList.add('active');
+}));
+
+function parseAmount(str){ if(!str) return null; const v=parseFloat(String(str).replace(/[$,]/g,'').trim()); return isNaN(v)?null:v; }
+function parseMonth(dateStr){ if(!dateStr) return null; const m=String(dateStr).trim().split(' ')[0]; return MONTHS.includes(m)?m:null; }
+function fmtMoney(n){ return '$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtMoneyShort(n){ return '$'+n.toLocaleString('en-US',{maximumFractionDigits:0}); }
+function detectColumns(headerKeys, guesses){ for(const g of guesses){ const hit=headerKeys.find(k=>k.trim().toLowerCase()===g.toLowerCase()); if(hit) return hit; } return null; }
+
+let detailRowsGlobal = [], presentMonthsGlobal = [], dupeGroupsGlobal = [];
+
+function run(){
+  const statusEl = document.getElementById('status');
+  statusEl.textContent = 'Processing...'; statusEl.className = 'status';
+  try{
+    const rows = collectionsData.filter(r=>Object.values(r).some(v=>v && String(v).trim()!==''));
+    if(!rows.length) throw new Error('That file has no usable rows.');
+    const headerKeys = Object.keys(rows[0]);
+    const colPatient = detectColumns(headerKeys, ['Patient']);
+    const colDate = detectColumns(headerKeys, ['Payment Date']);
+    const colAmount = detectColumns(headerKeys, ['Amount']);
+    if(!colPatient || !colDate || !colAmount) throw new Error('Could not find Patient, Payment Date, or Amount columns.');
+
+    const monthTotals={}, monthCounts={}, patientRows=[];
+    rows.forEach(r=>{
+      const amt=parseAmount(r[colAmount]), mon=parseMonth(r[colDate]), name=(r[colPatient]||'').trim();
+      if(amt===null || !mon || !name) return;
+      monthTotals[mon]=(monthTotals[mon]||0)+amt; monthCounts[mon]=(monthCounts[mon]||0)+1;
+      patientRows.push({name, date:r[colDate].trim(), month:mon, amount:amt});
+    });
+    const presentMonths = MONTHS.filter(m=>monthTotals[m]!==undefined);
+    presentMonthsGlobal = presentMonths;
+
+    let guarantors={}, favCol=null, lastSeenCol=null;
+    if(patientsData && patientsData.length){
+      const pRows = patientsData.filter(r=>Object.values(r).some(v=>v && String(v).trim()!==''));
+      if(pRows.length){
+        const pKeys = Object.keys(pRows[0]);
+        const fnCol = detectColumns(pKeys, ['First Name']), lnCol = detectColumns(pKeys, ['Last Name']);
+        favCol = detectColumns(pKeys, ['Family Annual Value']);
+        lastSeenCol = detectColumns(pKeys, ['Last seen','Last Seen']);
+        if(fnCol && lnCol) pRows.forEach(r=>{ const full=((r[fnCol]||'')+' '+(r[lnCol]||'')).trim(); if(full) guarantors[full]=r; });
+      }
+    }
+
+    const byPatient={};
+    patientRows.forEach(r=>{ if(!byPatient[r.name]) byPatient[r.name]={}; byPatient[r.name][r.month]=(byPatient[r.name][r.month]||0)+r.amount; });
+    const patientNames = Object.keys(byPatient).sort();
+    const detailRows = patientNames.map(name=>{
+      const months = byPatient[name]; let total=0;
+      presentMonths.forEach(m=>{ total+=(months[m]||0); });
+      const g = guarantors[name]; let lastSeen='', fav=null, match='';
+      if(g){
+        lastSeen = lastSeenCol ? (g[lastSeenCol]||'').trim() : '';
+        if(favCol){ const f=parseAmount(g[favCol]); if(f!==null){ fav=f; if(Math.abs(f-total)<0.01) match='Match'; } }
+      }
+      return {name, months, total, lastSeen, fav, match};
+    });
+    detailRowsGlobal = detailRows;
+
+    const dupeGroups = patientNames.map(name=>({name, entries: patientRows.filter(r=>r.name===name)})).filter(g=>new Set(g.entries.map(e=>e.date)).size>1);
+    dupeGroupsGlobal = dupeGroups;
+
+    let favSummaryHtml = '';
+    if(!patientsData || !patientsData.length){
+      favSummaryHtml = '<p class="fav-empty">Add a patient file to check which metric matches collected amounts.</p>';
+    } else if(!favCol){
+      favSummaryHtml = '<p class="fav-empty">No "Family Annual Value" column found in the patient file.</p>';
+    } else {
+      const sumMatches = detailRows.filter(d=>d.match).length;
+      const singleMatches = detailRows.filter(d=>d.fav!==null && patientRows.some(r=>r.name===d.name && Math.abs(r.amount-d.fav)<0.01)).length;
+      favSummaryHtml = `<div class="fav-banner">
+        <div class="badge-icn">FAV</div>
+        <div class="fb-text"><b>Family Annual Value</b> is the metric that lines up with collections — <b>${sumMatches}</b> patients' total paid equals their FAV exactly (<b>${singleMatches}</b> of those in a single payment). No other column in the patient file matched.</div>
+      </div>`;
+    }
+    document.getElementById('fav-summary').innerHTML = favSummaryHtml;
+
+    let grand=0, grandCount=0;
+    const revBody = document.getElementById('revenue-body');
+    revBody.innerHTML = presentMonths.map(m=>{
+      grand+=monthTotals[m]; grandCount+=monthCounts[m];
+      return `<tr><td class="strong">${m}</td><td class="num">${fmtMoney(monthTotals[m])}</td><td class="num">${monthCounts[m]}</td><td class="num">${fmtMoney(monthTotals[m]/monthCounts[m])}</td></tr>`;
+    }).join('');
+
+    document.getElementById('hero-total').textContent = fmtMoneyShort(grand);
+    document.getElementById('hero-range').textContent = `Across ${presentMonths[0]}–${presentMonths[presentMonths.length-1]} 2026, ${grandCount.toLocaleString()} payments`;
+    document.getElementById('m-payments').textContent = grandCount.toLocaleString();
+    document.getElementById('m-months').textContent = presentMonths.length;
+    document.getElementById('m-avg').textContent = fmtMoneyShort(grand/presentMonths.length);
+
+    if(chartInstance) chartInstance.destroy();
+    const ctx = document.getElementById('revenue-chart').getContext('2d');
+    chartInstance = new Chart(ctx, {
+      type:'bar',
+      data:{ labels: presentMonths, datasets:[{ data: presentMonths.map(m=>monthTotals[m]), backgroundColor:'#E8A33D', borderRadius:5, maxBarThickness:38 }]},
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:c=>fmtMoney(c.parsed.y) }, backgroundColor:'#1D2329', titleColor:'#ECEEF0', bodyColor:'#ECEEF0', borderColor:'#333c45', borderWidth:1 } },
+        scales:{
+          x:{ grid:{display:false}, ticks:{color:'#9AA4AE', font:{family:'Inter', size:11.5}} },
+          y:{ grid:{color:'#242B32'}, ticks:{color:'#9AA4AE', font:{family:'IBM Plex Mono', size:10.5}, callback:v=>'$'+(v/1000)+'k'} }
+        }
+      }
+    });
+
+    document.getElementById('tab-count-patients').textContent = patientNames.length;
+    document.getElementById('tab-count-dupes').textContent = dupeGroups.length;
+
+    const head = document.getElementById('detail-head');
+    function headerCell(label, key, numeric){
+      return `<th data-key="${key}" class="${sortState.key===key?'sorted':''}">${label}${numeric?'':''}</th>`;
+    }
+    head.innerHTML = headerCell('Patient','name',false) + presentMonths.map(m=>`<th class="num" data-key="m_${m}">${m}</th>`).join('') +
+      headerCell('Total','total',true) + `<th data-key="lastSeen">Last seen</th>` + `<th class="num" data-key="fav">Family annual value</th><th>Match</th>`;
+    head.querySelectorAll('th').forEach(th=>th.addEventListener('click', ()=>{
+      const key = th.dataset.key;
+      if(sortState.key===key) sortState.dir*=-1; else { sortState.key=key; sortState.dir=1; }
+      renderDetail(document.getElementById('search-detail').value);
+      head.querySelectorAll('th').forEach(x=>x.classList.remove('sorted'));
+      th.classList.add('sorted');
+    }));
+
+    renderDetail('');
+    document.getElementById('search-detail').addEventListener('input', e=>renderDetail(e.target.value));
+    renderDupes('');
+    document.getElementById('search-dupes').addEventListener('input', e=>renderDupes(e.target.value));
+
+    document.getElementById('dl-detail').onclick = ()=>{
+      const header = ['Patient', ...presentMonths, 'Total Paid', 'Last Seen', 'Family Annual Value', 'Match'];
+      const lines = [header.join(',')];
+      detailRowsGlobal.forEach(d=>{
+        const row = [d.name, ...presentMonths.map(m=>d.months[m]?d.months[m].toFixed(2):''), d.total.toFixed(2), d.lastSeen, d.fav!==null?d.fav.toFixed(2):'', d.match];
+        lines.push(row.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','));
+      });
+      downloadCsv(lines.join('\n'), 'patient_monthly_detail.csv');
+    };
+    document.getElementById('dl-dupes').onclick = ()=>{
+      const lines = ['Patient,# Payments,# Dates,Payment Date,Amount'];
+      dupeGroupsGlobal.forEach(g=>{
+        const distinctDates = new Set(g.entries.map(e=>e.date)).size;
+        g.entries.forEach((e,i)=>{ lines.push([i===0?g.name:'', i===0?g.entries.length:'', i===0?distinctDates:'', e.date, e.amount.toFixed(2)].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')); });
+      });
+      downloadCsv(lines.join('\n'), 'repeat_visits.csv');
+    };
+
+    document.getElementById('upload-card').classList.add('hidden');
+    document.getElementById('results').classList.remove('hidden');
+    const filebar = document.getElementById('filebar');
+    filebar.classList.remove('hidden');
+    filebar.innerHTML = `${collectionsFileName}${patientsFileName ? ' · '+patientsFileName : ''} <button id="new-files">Change files</button>`;
+    document.getElementById('new-files').addEventListener('click', ()=>location.reload());
+  } catch(err){
+    statusEl.textContent = err.message; statusEl.className = 'status err';
+  }
+}
+
+function sortRows(rows){
+  const {key, dir} = sortState;
+  return [...rows].sort((a,b)=>{
+    let av, bv;
+    if(key==='name'){ av=a.name; bv=b.name; return dir*av.localeCompare(bv); }
+    if(key==='total'){ av=a.total; bv=b.total; }
+    else if(key==='lastSeen'){ av=a.lastSeen||''; bv=b.lastSeen||''; return dir*av.localeCompare(bv); }
+    else if(key==='fav'){ av=a.fav||0; bv=b.fav||0; }
+    else if(key.startsWith('m_')){ const m=key.slice(2); av=a.months[m]||0; bv=b.months[m]||0; }
+    else { av=0; bv=0; }
+    return dir*(av-bv);
+  });
+}
+
+function renderDetail(filter){
+  const body = document.getElementById('detail-body');
+  const f = filter ? filter.toLowerCase() : '';
+  let filtered = detailRowsGlobal.filter(d=>d.name.toLowerCase().includes(f));
+  filtered = sortRows(filtered);
+  body.innerHTML = filtered.map(d=>{
+    const cells = presentMonthsGlobal.map(m=>`<td class="num">${d.months[m]?fmtMoney(d.months[m]):''}</td>`).join('');
+    return `<tr><td class="strong">${d.name}</td>${cells}<td class="num strong">${fmtMoney(d.total)}</td><td>${d.lastSeen}</td><td class="num">${d.fav!==null?fmtMoney(d.fav):''}</td><td>${d.match?'<span class="tag">Match</span>':''}</td></tr>`;
+  }).join('') || '<tr><td class="empty" colspan="20">No patients match that search.</td></tr>';
+}
+
+function renderDupes(filter){
+  const list = document.getElementById('dupes-list');
+  const f = filter ? filter.toLowerCase() : '';
+  const filtered = dupeGroupsGlobal.filter(g=>g.name.toLowerCase().includes(f));
+  if(!filtered.length){ list.innerHTML = '<div class="empty">No patients match that search.</div>'; return; }
+  list.innerHTML = filtered.map(g=>{
+    const total = g.entries.reduce((s,e)=>s+e.amount,0);
+    const distinctDates = new Set(g.entries.map(e=>e.date)).size;
+    const maxAmt = Math.max(...g.entries.map(e=>e.amount));
+    const dots = g.entries.map((e,i)=>{
+      const pct = g.entries.length>1 ? (i/(g.entries.length-1))*100 : 50;
+      const size = 6 + (e.amount/maxAmt)*10;
+      return `<div class="dot" style="left:${pct}%; width:${size}px; height:${size}px;"><span class="tip">${e.date.replace(', 2026','')} · ${fmtMoney(e.amount)}</span></div>`;
+    }).join('');
+    return `<div class="dupe-card">
+      <div class="dupe-top">
+        <div><div class="dupe-name">${g.name}</div><div class="dupe-meta">${g.entries.length} payments · ${distinctDates} dates</div></div>
+        <div class="dupe-total">${fmtMoney(total)}</div>
+      </div>
+      <div class="timeline"><div class="track"></div>${dots}</div>
+    </div>`;
+  }).join('');
+}
+
+function downloadCsv(content, filename){
+  const blob = new Blob([content], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
