@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Collections Analyzer</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+  :root{
+    --bg:#f6f5f2; --panel:#ffffff; --border:#e2e0d8; --border-strong:#c9c6ba;
+    --text:#22221f; --text-2:#63625b; --text-muted:#949285;
+    --accent:#0f6e56; --accent-bg:#e1f5ee; --accent-strong:#085041;
+    --warn:#993c1d; --warn-bg:#faece7;
+    --mono:'SF Mono',Consolas,'Roboto Mono',monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text); font-family:var(--sans);
+    padding:32px 24px 80px;
+  }
+  .wrap{max-width:1080px; margin:0 auto;}
+  h1{font-size:22px; font-weight:600; margin:0 0 4px;}
+  .sub{color:var(--text-2); font-size:14px; margin:0 0 28px;}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;}
+  @media (max-width:700px){.grid{grid-template-columns:1fr;}}
+  .dropzone{
+    background:var(--panel); border:1.5px dashed var(--border-strong); border-radius:var(--radius);
+    padding:22px; text-align:center; cursor:pointer; transition:border-color .15s, background .15s;
+  }
+  .dropzone:hover, .dropzone.drag{border-color:var(--accent); background:var(--accent-bg);}
+  .dropzone.filled{border-style:solid; border-color:var(--accent); background:var(--accent-bg);}
+  .dropzone .label{font-weight:600; font-size:14px; margin-bottom:4px;}
+  .dropzone .hint{font-size:12.5px; color:var(--text-muted);}
+  .dropzone .filename{font-size:13px; color:var(--accent-strong); font-weight:600; margin-top:6px; word-break:break-all;}
+  input[type=file]{display:none;}
+  .btn{
+    appearance:none; border:1px solid var(--border-strong); background:var(--panel);
+    color:var(--text); font-size:13.5px; font-weight:600; padding:9px 16px;
+    border-radius:8px; cursor:pointer; font-family:var(--sans);
+  }
+  .btn:hover{background:#efede6;}
+  .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff;}
+  .btn.primary:hover{background:var(--accent-strong);}
+  .btn:disabled{opacity:.4; cursor:not-allowed;}
+  .btn.small{padding:6px 12px; font-size:12.5px;}
+  .actions{display:flex; gap:10px; margin:8px 0 32px;}
+  .card{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; margin-bottom:20px;}
+  .card h2{font-size:15px; font-weight:600; margin:0 0 14px; display:flex; align-items:center; justify-content:space-between;}
+  .card h2 .btn{font-weight:600;}
+  .metrics{display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; margin-bottom:6px;}
+  .metric{background:#f4f2ec; border-radius:8px; padding:12px 14px;}
+  .metric .l{font-size:12px; color:var(--text-2); margin-bottom:4px;}
+  .metric .v{font-size:19px; font-weight:600; font-family:var(--mono);}
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th{
+    text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em;
+    color:var(--text-muted); font-weight:600; padding:7px 8px; border-bottom:1px solid var(--border);
+    position:sticky; top:0; background:var(--panel);
+  }
+  td{padding:7px 8px; border-bottom:1px solid #f0eee7; white-space:nowrap;}
+  tr:hover td{background:#faf9f5;}
+  .num{font-family:var(--mono); text-align:right;}
+  .tablewrap{max-height:360px; overflow:auto; border:1px solid var(--border); border-radius:8px;}
+  .tag{display:inline-block; font-size:11px; font-weight:600; padding:2px 8px; border-radius:20px;}
+  .tag.match{background:var(--accent-bg); color:var(--accent-strong);}
+  .empty{color:var(--text-muted); font-size:13.5px; padding:20px; text-align:center;}
+  .row-search{margin-bottom:10px;}
+  .row-search input{
+    width:100%; padding:8px 12px; font-size:13px; border:1px solid var(--border-strong);
+    border-radius:8px; font-family:var(--sans); background:#fff;
+  }
+  .status{font-size:12.5px; color:var(--text-2); margin-top:10px;}
+  .status.err{color:var(--warn);}
+  .foot-note{font-size:12px; color:var(--text-muted); margin-top:4px;}
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Collections analyzer</h1>
+  <p class="sub">Upload a collections file and a patient file. Everything below is generated automatically — no manual matching.</p>
+
+  <div class="grid">
+    <div class="dropzone" id="dz-collections">
+      <div class="label">Collections file</div>
+      <div class="hint">CSV with Payment Date, Patient, Amount</div>
+      <div class="filename" id="fn-collections"></div>
+      <input type="file" id="file-collections" accept=".csv">
+    </div>
+    <div class="dropzone" id="dz-patients">
+      <div class="label">Patient file (optional)</div>
+      <div class="hint">CSV with First Name, Last Name, Last seen, Family Annual Value...</div>
+      <div class="filename" id="fn-patients"></div>
+      <input type="file" id="file-patients" accept=".csv">
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn primary" id="run-btn" disabled>Run analysis</button>
+    <button class="btn" id="reset-btn">Reset</button>
+  </div>
+  <div class="status" id="status"></div>
+
+  <div id="results" class="hidden">
+
+    <div class="card">
+      <h2>Monthly revenue</h2>
+      <div class="metrics" id="revenue-metrics"></div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Month</th><th class="num">Revenue</th><th class="num">Payments</th><th class="num">Avg payment</th></tr></thead>
+          <tbody id="revenue-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" id="fav-card">
+      <h2>Matching metric check</h2>
+      <div id="fav-summary"></div>
+    </div>
+
+    <div class="card">
+      <h2>Patient detail — monthly paid
+        <button class="btn small" id="dl-detail">Download CSV</button>
+      </h2>
+      <div class="row-search"><input type="text" id="search-detail" placeholder="Search patient name..."></div>
+      <div class="tablewrap"><table>
+        <thead><tr id="detail-head"></tr></thead>
+        <tbody id="detail-body"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <h2>Duplicate names — multiple payment dates
+        <button class="btn small" id="dl-dupes">Download CSV</button>
+      </h2>
+      <div class="row-search"><input type="text" id="search-dupes" placeholder="Search patient name..."></div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Patient</th><th class="num"># Payments</th><th class="num"># Dates</th><th>Payment Date</th><th class="num">Amount</th></tr></thead>
+        <tbody id="dupes-body"></tbody>
+      </table></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let collectionsData = null;
+let patientsData = null;
+
+function setupDropzone(dzId, inputId, fnId, onLoad){
+  const dz = document.getElementById(dzId);
+  const input = document.getElementById(inputId);
+  const fn = document.getElementById(fnId);
+  dz.addEventListener('click', ()=>input.click());
+  dz.addEventListener('dragover', e=>{e.preventDefault(); dz.classList.add('drag');});
+  dz.addEventListener('dragleave', ()=>dz.classList.remove('drag'));
+  dz.addEventListener('drop', e=>{
+    e.preventDefault(); dz.classList.remove('drag');
+    if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+  });
+  input.addEventListener('change', e=>{
+    if(e.target.files.length) handleFile(e.target.files[0]);
+  });
+  function handleFile(file){
+    fn.textContent = file.name;
+    dz.classList.add('filled');
+    Papa.parse(file, {
+      header:true, skipEmptyLines:true,
+      complete: res=>{ onLoad(res.data); checkReady(); }
+    });
+  }
+}
+
+function checkReady(){
+  document.getElementById('run-btn').disabled = !collectionsData;
+}
+
+setupDropzone('dz-collections','file-collections','fn-collections', data=>{ collectionsData = data; });
+setupDropzone('dz-patients','file-patients','fn-patients', data=>{ patientsData = data; });
+
+document.getElementById('reset-btn').addEventListener('click', ()=>location.reload());
+
+document.getElementById('run-btn').addEventListener('click', run);
+
+function parseAmount(str){
+  if(!str) return null;
+  const v = parseFloat(String(str).replace(/[$,]/g,'').trim());
+  return isNaN(v) ? null : v;
+}
+
+function parseMonth(dateStr){
+  if(!dateStr) return null;
+  const m = String(dateStr).trim().split(' ')[0];
+  return MONTHS.includes(m) ? m : null;
+}
+
+function fmtMoney(n){
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function detectColumns(headerKeys, guesses){
+  for(const g of guesses){
+    const hit = headerKeys.find(k=>k.trim().toLowerCase() === g.toLowerCase());
+    if(hit) return hit;
+  }
+  return null;
+}
+
+function run(){
+  const statusEl = document.getElementById('status');
+  statusEl.textContent = 'Processing...';
+  statusEl.className = 'status';
+
+  try{
+    const rows = collectionsData.filter(r=>Object.values(r).some(v=>v && String(v).trim() !== ''));
+    if(!rows.length){ throw new Error('Collections file has no usable rows.'); }
+    const headerKeys = Object.keys(rows[0]);
+    const colPatient = detectColumns(headerKeys, ['Patient']);
+    const colDate = detectColumns(headerKeys, ['Payment Date']);
+    const colAmount = detectColumns(headerKeys, ['Amount']);
+    if(!colPatient || !colDate || !colAmount){
+      throw new Error('Could not find Patient / Payment Date / Amount columns in the collections file.');
+    }
+
+    // ---- Monthly revenue ----
+    const monthTotals = {}; const monthCounts = {};
+    const patientRows = [];
+    rows.forEach(r=>{
+      const amt = parseAmount(r[colAmount]);
+      const mon = parseMonth(r[colDate]);
+      const name = (r[colPatient]||'').trim();
+      if(amt === null || !mon || !name) return;
+      monthTotals[mon] = (monthTotals[mon]||0) + amt;
+      monthCounts[mon] = (monthCounts[mon]||0) + 1;
+      patientRows.push({name, date:r[colDate].trim(), month:mon, amount:amt});
+    });
+    const presentMonths = MONTHS.filter(m=>monthTotals[m] !== undefined);
+
+    // ---- Patient file (optional) ----
+    let guarantors = {};
+    let favCol = null, lastSeenCol = null;
+    if(patientsData && patientsData.length){
+      const pRows = patientsData.filter(r=>Object.values(r).some(v=>v && String(v).trim()!==''));
+      if(pRows.length){
+        const pKeys = Object.keys(pRows[0]);
+        const fnCol = detectColumns(pKeys, ['First Name']);
+        const lnCol = detectColumns(pKeys, ['Last Name']);
+        favCol = detectColumns(pKeys, ['Family Annual Value']);
+        lastSeenCol = detectColumns(pKeys, ['Last seen','Last Seen']);
+        if(fnCol && lnCol){
+          pRows.forEach(r=>{
+            const full = ((r[fnCol]||'')+' '+(r[lnCol]||'')).trim();
+            if(full) guarantors[full] = r;
+          });
+        }
+      }
+    }
+
+    // ---- Patient monthly pivot ----
+    const byPatient = {};
+    patientRows.forEach(r=>{
+      if(!byPatient[r.name]) byPatient[r.name] = {};
+      byPatient[r.name][r.month] = (byPatient[r.name][r.month]||0) + r.amount;
+    });
+    const patientNames = Object.keys(byPatient).sort();
+    const detailRows = patientNames.map(name=>{
+      const months = byPatient[name];
+      let total = 0;
+      presentMonths.forEach(m=>{ total += (months[m]||0); });
+      const g = guarantors[name];
+      let lastSeen = '', fav = null, match = '';
+      if(g){
+        lastSeen = lastSeenCol ? (g[lastSeenCol]||'').trim() : '';
+        if(favCol){
+          const f = parseAmount(g[favCol]);
+          if(f !== null){ fav = f; if(Math.abs(f-total) < 0.01) match = 'Total = FAV'; }
+        }
+      }
+      return {name, months, total, lastSeen, fav, match};
+    });
+
+    // ---- Duplicates ----
+    const dupeGroups = patientNames
+      .map(name=>({name, entries: patientRows.filter(r=>r.name===name)}))
+      .filter(g=>new Set(g.entries.map(e=>e.date)).size > 1);
+
+    // ---- FAV matching metric check (test all numeric cols) ----
+    let favSummaryHtml = '';
+    if(!patientsData || !patientsData.length){
+      favSummaryHtml = '<p class="empty">Upload a patient file to check which metric matches collected amounts.</p>';
+    } else if(!favCol){
+      favSummaryHtml = '<p class="empty">No "Family Annual Value" column found in the patient file.</p>';
+    } else {
+      const singleMatches = detailRows.filter(d=>d.fav!==null && patientRows.some(r=>r.name===d.name && Math.abs(r.amount-d.fav)<0.01)).length;
+      const sumMatches = detailRows.filter(d=>d.match).length;
+      favSummaryHtml = `
+        <div class="metrics">
+          <div class="metric"><div class="l">Matching metric</div><div class="v" style="font-family:var(--sans)">Family Annual Value</div></div>
+          <div class="metric"><div class="l">Patients: total paid = FAV</div><div class="v">${sumMatches}</div></div>
+          <div class="metric"><div class="l">Single payments = FAV</div><div class="v">${singleMatches}</div></div>
+        </div>`;
+    }
+    document.getElementById('fav-summary').innerHTML = favSummaryHtml;
+
+    // ---- Render revenue ----
+    let grand = 0, grandCount = 0;
+    const revBody = document.getElementById('revenue-body');
+    revBody.innerHTML = presentMonths.map(m=>{
+      grand += monthTotals[m]; grandCount += monthCounts[m];
+      return `<tr><td>${m}</td><td class="num">${fmtMoney(monthTotals[m])}</td><td class="num">${monthCounts[m]}</td><td class="num">${fmtMoney(monthTotals[m]/monthCounts[m])}</td></tr>`;
+    }).join('');
+    document.getElementById('revenue-metrics').innerHTML = `
+      <div class="metric"><div class="l">Total revenue</div><div class="v">${fmtMoney(grand)}</div></div>
+      <div class="metric"><div class="l">Total payments</div><div class="v">${grandCount.toLocaleString()}</div></div>
+      <div class="metric"><div class="l">Months covered</div><div class="v">${presentMonths.length}</div></div>
+      <div class="metric"><div class="l">Avg / month</div><div class="v">${fmtMoney(grand/presentMonths.length)}</div></div>
+    `;
+
+    // ---- Render patient detail table ----
+    const head = document.getElementById('detail-head');
+    head.innerHTML = `<th>Patient</th>` + presentMonths.map(m=>`<th class="num">${m}</th>`).join('') +
+      `<th class="num">Total</th><th>Last seen</th><th class="num">Family annual value</th><th>Match</th>`;
+    function renderDetail(filter){
+      const body = document.getElementById('detail-body');
+      const f = filter ? filter.toLowerCase() : '';
+      const filtered = detailRows.filter(d=>d.name.toLowerCase().includes(f));
+      body.innerHTML = filtered.map(d=>{
+        const cells = presentMonths.map(m=>`<td class="num">${d.months[m] ? fmtMoney(d.months[m]) : ''}</td>`).join('');
+        return `<tr><td>${d.name}</td>${cells}<td class="num">${fmtMoney(d.total)}</td><td>${d.lastSeen}</td><td class="num">${d.fav!==null?fmtMoney(d.fav):''}</td><td>${d.match?`<span class="tag match">${d.match}</span>`:''}</td></tr>`;
+      }).join('') || '<tr><td class="empty" colspan="20">No matches</td></tr>';
+    }
+    renderDetail('');
+    document.getElementById('search-detail').addEventListener('input', e=>renderDetail(e.target.value));
+
+    // ---- Render duplicates table ----
+    function renderDupes(filter){
+      const body = document.getElementById('dupes-body');
+      const f = filter ? filter.toLowerCase() : '';
+      const filtered = dupeGroups.filter(g=>g.name.toLowerCase().includes(f));
+      let html = '';
+      filtered.forEach(g=>{
+        const distinctDates = new Set(g.entries.map(e=>e.date)).size;
+        g.entries.forEach((e, i)=>{
+          html += `<tr><td>${i===0?g.name:''}</td><td class="num">${i===0?g.entries.length:''}</td><td class="num">${i===0?distinctDates:''}</td><td>${e.date}</td><td class="num">${fmtMoney(e.amount)}</td></tr>`;
+        });
+      });
+      body.innerHTML = html || '<tr><td class="empty" colspan="5">No matches</td></tr>';
+    }
+    renderDupes('');
+    document.getElementById('search-dupes').addEventListener('input', e=>renderDupes(e.target.value));
+
+    // ---- Download handlers ----
+    document.getElementById('dl-detail').onclick = ()=>{
+      const header = ['Patient', ...presentMonths, 'Total Paid', 'Last Seen', 'Family Annual Value', 'Match'];
+      const lines = [header.join(',')];
+      detailRows.forEach(d=>{
+        const row = [d.name, ...presentMonths.map(m=>d.months[m]?d.months[m].toFixed(2):''), d.total.toFixed(2), d.lastSeen, d.fav!==null?d.fav.toFixed(2):'', d.match];
+        lines.push(row.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','));
+      });
+      downloadCsv(lines.join('\n'), 'patient_monthly_detail.csv');
+    };
+    document.getElementById('dl-dupes').onclick = ()=>{
+      const lines = ['Patient,# Payments,# Dates,Payment Date,Amount'];
+      dupeGroups.forEach(g=>{
+        const distinctDates = new Set(g.entries.map(e=>e.date)).size;
+        g.entries.forEach((e,i)=>{
+          lines.push([i===0?g.name:'', i===0?g.entries.length:'', i===0?distinctDates:'', e.date, e.amount.toFixed(2)].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','));
+        });
+      });
+      downloadCsv(lines.join('\n'), 'duplicate_names.csv');
+    };
+
+    document.getElementById('results').classList.remove('hidden');
+    statusEl.textContent = `Done — ${rows.length.toLocaleString()} payment rows, ${patientNames.length.toLocaleString()} unique patients.`;
+  } catch(err){
+    statusEl.textContent = 'Error: ' + err.message;
+    statusEl.className = 'status err';
+  }
+}
+
+function downloadCsv(content, filename){
+  const blob = new Blob([content], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
