@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kirkland Dental Excellence — Meta Ads &amp; CRM Report</title>
+<style>
+  :root{
+    --bg:#0d1117; --surface:#161b22; --surface2:#1c2330;
+    --border:#2a3140; --text:#e6edf3; --muted:#8b96a5;
+    --accent:#4f9cf9; --green:#3fb96f; --amber:#e8a13c; --red:#e5534b;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,'Segoe UI',Inter,Roboto,sans-serif;
+    padding:32px 20px 60px;
+  }
+  .wrap{max-width:1080px; margin:0 auto;}
+  header{margin-bottom:28px;}
+  .client{font-size:28px; font-weight:600; margin:2px 0;}
+  .period{color:var(--muted); font-size:14px; margin:0 0 2px;}
+  .subtitle{color:var(--muted); font-size:13px; letter-spacing:.02em; text-transform:uppercase;}
+  .rule{height:3px; border-radius:2px; margin-top:14px;
+    background:linear-gradient(90deg,var(--accent),var(--green));}
+
+  h2.section{font-size:14px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--muted); margin:36px 0 14px; font-weight:600;}
+
+  .kpi-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px;}
+  .kpi{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px;}
+  .kpi .label{font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:8px;}
+  .kpi .value{font-size:30px; font-weight:600; line-height:1.1;}
+  .kpi .value.na{color:var(--muted); font-size:22px;}
+  .kpi .note{font-size:11px; color:var(--muted); margin-top:6px;}
+
+  .chip{display:inline-flex; align-items:center; gap:8px; background:var(--surface2);
+    border:1px solid var(--border); border-radius:999px; padding:8px 16px; font-size:13px; margin-top:16px;}
+  .chip b{color:var(--green);}
+
+  .funnels{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:20px;}
+  .funnel-card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px;}
+  .funnel-title{font-size:15px; font-weight:600; margin-bottom:16px; display:flex; justify-content:space-between; align-items:baseline;}
+  .funnel-title .platform{font-size:11px; color:var(--muted); font-weight:400; text-transform:uppercase; letter-spacing:.04em;}
+  .stage{margin-bottom:12px;}
+  .stage-label{display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-bottom:4px;}
+  .stage-label .conv{color:var(--muted);}
+  .bar-track{background:var(--surface2); border-radius:6px; height:26px; overflow:hidden;}
+  .bar{height:100%; display:flex; align-items:center; padding-left:10px; font-size:12px; font-weight:600;
+    color:#04101f; border-radius:6px; min-width:8%; transition:width .3s;}
+
+  .insight{background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 20px; font-size:13px; color:var(--text); margin-top:18px; line-height:1.6;}
+  .insight b{color:var(--amber);}
+
+  .chart-card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px;}
+
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th,td{padding:10px 12px; text-align:right; border-bottom:1px solid var(--border); white-space:nowrap;}
+  th:first-child, td:first-child{text-align:left;}
+  th{color:var(--muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.03em; cursor:pointer;}
+  tr.totals td{font-weight:700; border-top:1px solid var(--border-strong,#3a4356); border-bottom:none;}
+  .table-wrap{overflow-x:auto; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:8px 8px 4px;}
+  .muted-cell{color:var(--muted);}
+
+  footer{margin-top:40px; font-size:11.5px; color:var(--muted); line-height:1.7; border-top:1px solid var(--border); padding-top:16px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="period">Apr 1 – Jul 14, 2026 (Meta Ads) &nbsp;·&nbsp; CRM data through Jul 19, 2026</p>
+    <div class="client">Kirkland Dental Excellence</div>
+    <p class="subtitle">Meta Ads &amp; CRM Performance Report</p>
+    <div class="rule"></div>
+  </header>
+
+  <h2 class="section">Meta ad spend &amp; revenue</h2>
+  <div class="kpi-grid" id="kpiMoney"></div>
+  <div class="chip" id="topChip"></div>
+
+  <h2 class="section">Meta lead funnel metrics</h2>
+  <div class="kpi-grid" id="kpiFunnel"></div>
+
+  <h2 class="section">Funnel by channel (GHL, source-attributed)</h2>
+  <div class="funnels" id="funnelCards"></div>
+  <div class="insight" id="geoInsight"></div>
+
+  <h2 class="section">Weekly lead volume</h2>
+  <div class="chart-card">
+    <div style="position:relative; height:260px;">
+      <canvas id="trendChart" role="img" aria-label="Weekly lead volume by channel, Paid Search versus Paid Social, March 30 through July 13 2026">Weekly lead counts by channel — see table for exact figures.</canvas>
+    </div>
+  </div>
+
+  <h2 class="section">Meta campaign breakdown</h2>
+  <div class="table-wrap">
+    <table id="campTable">
+      <thead>
+        <tr>
+          <th>Campaign</th><th>Spend</th><th>Impressions</th><th>Reach</th><th>Leads</th><th>CPL</th>
+        </tr>
+      </thead>
+      <tbody id="campBody"></tbody>
+    </table>
+  </div>
+
+  <footer id="footnote"></footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const DATA = {
+  client: "Kirkland Dental Excellence",
+  currency: "USD",
+  meta: {
+    total_spend: 2321.93,
+    leadgen_spend: 1481.88,
+    awareness_spend: 840.05,
+    total_leads: 28,
+    overall_cpl: 82.93,
+    leadgen_cpl: 52.92
+  },
+  campaigns: [
+    {name:"TOF_Engagement_Thruplays_May25_2026_Implants_Kirkland_Medina_Bellevue", spend:840.05, impressions:63080, reach:23954, leads:0, cpl:null},
+    {name:"BOF_LeadGen_May25_2026_Kirkland_Medina_Bellevue", spend:681.11, impressions:22261, reach:9842, leads:10, cpl:68.11},
+    {name:"MOF_LeadGen_May25_2026_Kirkland_Medina_Bellevue", spend:609.25, impressions:13348, reach:6338, leads:17, cpl:35.84},
+    {name:"MOF_LeadGen_July_2026_Kirkland_Medina_Bellevue", spend:94.37, impressions:2159, reach:1481, leads:1, cpl:94.37},
+    {name:"BOF_LeadGen_July_2026_Kirkland_Medina_Bellevue", spend:88.96, impressions:4310, reach:2478, leads:0, cpl:null},
+    {name:"Lead | BOF | Zip 98033 | 5/28/26", spend:8.19, impressions:180, reach:162, leads:0, cpl:null}
+  ],
+  funnels: {
+    paid_social: {label:"Meta (Paid Social)", leads:30, booked:3, showed:1, started:0, pipeline_value:188.00, started_revenue:0},
+    paid_search: {label:"Google (Paid Search)", leads:55, booked:11, showed:3, started:2, pipeline_value:5687.79, started_revenue:614.00}
+  },
+  weekly_trend: {
+    weeks: ["Mar 30","Apr 6","Apr 13","Apr 20","Apr 27","May 4","May 11","May 18","May 25","Jun 1","Jun 8","Jun 15","Jun 22","Jun 29","Jul 6","Jul 13"],
+    paid_search: [2,3,7,8,6,2,7,4,2,2,4,1,2,3,0,2],
+    paid_social: [0,0,0,0,0,0,0,0,0,0,7,4,5,8,2,4]
+  },
+  geo_match: {
+    clinic_address: "1619 Market St, Kirkland, WA 98033",
+    paid_search_local_pct: 91,
+    paid_social_local_pct: 0
+  }
+};
+
+function fmtMoney(v){
+  if(v === null || v === undefined) return "—";
+  return new Intl.NumberFormat('en-US', {style:'currency', currency:DATA.currency, maximumFractionDigits:2}).format(v);
+}
+function fmtNum(v){
+  if(v === null || v === undefined) return "—";
+  return new Intl.NumberFormat('en-US').format(v);
+}
+function pct(a,b,digits=1){
+  if(!b) return "—";
+  return (a/b*100).toFixed(digits) + "%";
+}
+
+// ---- KPI row 1: money ----
+const kpiMoney = [
+  {label:"Total Meta spend", value: fmtMoney(DATA.meta.total_spend), note:"Apr 1 – Jul 14, 2026"},
+  {label:"Lead-gen spend only", value: fmtMoney(DATA.meta.leadgen_spend), note:"Excludes " + fmtMoney(DATA.meta.awareness_spend) + " awareness campaign"},
+  {label:"Meta pipeline value", value: fmtMoney(DATA.funnels.paid_social.pipeline_value), note:"Lead value attached to Paid Social opps"},
+  {label:"Meta started treatment", value: fmtNum(DATA.funnels.paid_social.started), note: fmtMoney(DATA.funnels.paid_social.started_revenue) + " revenue to date"}
+];
+document.getElementById('kpiMoney').innerHTML = kpiMoney.map(k =>
+  `<div class="kpi"><div class="label">${k.label}</div><div class="value">${k.value}</div><div class="note">${k.note}</div></div>`
+).join('');
+
+// top campaign chip (best CPL among campaigns with leads>0)
+const withLeads = DATA.campaigns.filter(c => c.leads > 0);
+const topCampaign = withLeads.reduce((a,b) => (a.cpl < b.cpl ? a : b));
+document.getElementById('topChip').innerHTML = `Top campaign: <b>${topCampaign.name.replace(/_/g,' ')}</b> — ${fmtMoney(topCampaign.cpl)} CPL`;
+
+// ---- KPI row 2: funnel ----
+const kpiFunnel = [
+  {label:"Meta leads (reported)", value: fmtNum(DATA.meta.total_leads)},
+  {label:"CPL (lead-gen campaigns)", value: fmtMoney(DATA.meta.leadgen_cpl)},
+  {label:"Meta appts booked", value: fmtNum(DATA.funnels.paid_social.booked)},
+  {label:"Booking rate", value: pct(DATA.funnels.paid_social.booked, DATA.funnels.paid_social.leads)},
+  {label:"Meta showed", value: fmtNum(DATA.funnels.paid_social.showed)},
+  {label:"Show rate", value: pct(DATA.funnels.paid_social.showed, DATA.funnels.paid_social.leads)},
+  {label:"Started treatment", value: fmtNum(DATA.funnels.paid_social.started)},
+  {label:"Close rate", value: pct(DATA.funnels.paid_social.started, DATA.funnels.paid_social.booked)}
+];
+document.getElementById('kpiFunnel').innerHTML = kpiFunnel.map(k =>
+  `<div class="kpi"><div class="label">${k.label}</div><div class="value ${k.value==='—'?'na':''}">${k.value}</div></div>`
+).join('');
+
+// ---- Funnel cards ----
+function funnelCard(f){
+  const stages = [
+    {name:"Leads", count:f.leads, base:f.leads},
+    {name:"Booked", count:f.booked, base:f.leads},
+    {name:"Showed", count:f.showed, base:f.leads},
+    {name:"Started treatment", count:f.started, base:f.leads}
+  ];
+  const colors = ['#4f9cf9','#7db8f5','#e8a13c','#3fb96f'];
+  const rows = stages.map((s,i) => {
+    const widthPct = Math.max((s.count / f.leads * 100), s.count>0?8:2);
+    const prevCount = i===0 ? null : stages[i-1].count;
+    const convTxt = i===0 ? "" : `<span class="conv">${pct(s.count, prevCount)} of prior stage</span>`;
+    return `<div class="stage">
+      <div class="stage-label"><span>${s.name}</span>${convTxt}</div>
+      <div class="bar-track"><div class="bar" style="width:${widthPct}%; background:${colors[i]};">${s.count}</div></div>
+    </div>`;
+  }).join('');
+  return `<div class="funnel-card">
+    <div class="funnel-title">${f.label}<span class="platform">${f.leads} total leads</span></div>
+    ${rows}
+  </div>`;
+}
+document.getElementById('funnelCards').innerHTML =
+  funnelCard(DATA.funnels.paid_social) + funnelCard(DATA.funnels.paid_search);
+
+document.getElementById('geoInsight').innerHTML =
+  `<b>Geo-match check</b> vs. clinic address (${DATA.geo_match.clinic_address}): of scheduled-appointment leads with a traceable phone area code, ` +
+  `<b>${DATA.geo_match.paid_search_local_pct}%</b> of Google's are within the local service area, versus <b>${DATA.geo_match.paid_social_local_pct}%</b> of Meta's ` +
+  `— Meta's booked leads skew toward Tacoma, western Washington, and out-of-state area codes (AZ). Worth auditing Meta's location/radius targeting.`;
+
+// ---- Weekly trend chart ----
+if (window.Chart) {
+  new Chart(document.getElementById('trendChart'), {
+    type: 'bar',
+    data: {
+      labels: DATA.weekly_trend.weeks,
+      datasets: [
+        {label:'Paid Search (Google)', data: DATA.weekly_trend.paid_search, backgroundColor:'#4f9cf9', borderRadius:3},
+        {label:'Paid Social (Meta)', data: DATA.weekly_trend.paid_social, backgroundColor:'#e8a13c', borderRadius:3}
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ labels:{ color:'#e6edf3', font:{size:11} } } },
+      scales:{
+        x:{ ticks:{ color:'#8b96a5', font:{size:10}, autoSkip:false, maxRotation:45 }, grid:{ display:false } },
+        y:{ beginAtZero:true, ticks:{ color:'#8b96a5', font:{size:10}, stepSize:2 }, grid:{ color:'#2a3140' } }
+      }
+    }
+  });
+} else {
+  document.getElementById('trendChart').outerHTML = '<p style="color:var(--muted);font-size:13px;">Charts need an internet connection to load Chart.js. See weekly figures in DATA.weekly_trend.</p>';
+}
+
+// ---- Campaign table ----
+const totalRow = DATA.campaigns.reduce((acc,c) => ({
+  spend: acc.spend + c.spend, impressions: acc.impressions + c.impressions,
+  reach: acc.reach + c.reach, leads: acc.leads + c.leads
+}), {spend:0, impressions:0, reach:0, leads:0});
+
+function renderCampRows(rows){
+  document.getElementById('campBody').innerHTML = rows.map(c => `
+    <tr>
+      <td>${c.name.replace(/_/g,' ')}</td>
+      <td>${fmtMoney(c.spend)}</td>
+      <td>${fmtNum(c.impressions)}</td>
+      <td>${fmtNum(c.reach)}</td>
+      <td>${fmtNum(c.leads)}</td>
+      <td class="${c.cpl===null?'muted-cell':''}">${c.cpl===null?'—':fmtMoney(c.cpl)}</td>
+    </tr>`).join('') +
+    `<tr class="totals">
+      <td>Total</td>
+      <td>${fmtMoney(totalRow.spend)}</td>
+      <td>${fmtNum(totalRow.impressions)}</td>
+      <td>${fmtNum(totalRow.reach)}</td>
+      <td>${fmtNum(totalRow.leads)}</td>
+      <td>${fmtMoney(totalRow.leads ? totalRow.spend/totalRow.leads : null)}</td>
+    </tr>`;
+}
+renderCampRows(DATA.campaigns);
+
+// simple sort on header click
+let sortDir = {};
+document.querySelectorAll('#campTable th').forEach((th, idx) => {
+  th.addEventListener('click', () => {
+    const keys = ['name','spend','impressions','reach','leads','cpl'];
+    const key = keys[idx];
+    sortDir[key] = !sortDir[key];
+    const sorted = [...DATA.campaigns].sort((a,b) => {
+      let av = a[key], bv = b[key];
+      if (key==='name') return sortDir[key] ? av.localeCompare(bv) : bv.localeCompare(av);
+      av = av===null ? -1 : av; bv = bv===null ? -1 : bv;
+      return sortDir[key] ? av-bv : bv-av;
+    });
+    renderCampRows(sorted);
+  });
+});
+
+// ---- Footnote ----
+document.getElementById('footnote').innerHTML = `
+  Data sources: Meta Ads Manager export (Apr 1 – Jul 14, 2026) and GoHighLevel opportunity export (created dates through Jul 19, 2026).<br>
+  Attribution: GHL "Source" field (Paid Social = Meta, Paid Search = Google) — the cleanest link available; no UTM-to-campaign join was present for cross-platform matching.<br>
+  Google/Paid Search ad spend was not provided in this export, so CPL, ROAS, and cost-per-close could not be computed for that channel — only CRM funnel counts are shown.<br>
+  Revenue/"started treatment" is a proxy for closed-won: every row in the GHL export had Status = "open" (no explicit won/lost flag), so this reflects the current open-pipeline snapshot, not a full historical closed-deal ledger. Some already-closed deals may not appear here.<br>
+  Generated ${new Date().toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric'})}.
+`;
+</script>
+</body>
+</html>
