@@ -1,0 +1,1004 @@
+{
+  "Home": [
+    {
+      "label": "Home",
+      "file": "screens/Home/Home.png",
+      "w": 390,
+      "h": 1550
+    },
+    {
+      "label": "Home",
+      "file": "screens/Home/Home [5].png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Home-1",
+      "file": "screens/Home/Home-1.png",
+      "w": 780,
+      "h": 2332
+    },
+    {
+      "label": "Home-2",
+      "file": "screens/Home/Home-2.png",
+      "w": 780,
+      "h": 2332
+    },
+    {
+      "label": "Home-3",
+      "file": "screens/Home/Home-3.png",
+      "w": 780,
+      "h": 2512
+    },
+    {
+      "label": "Home-4",
+      "file": "screens/Home/Home-4.png",
+      "w": 780,
+      "h": 3134
+    },
+    {
+      "label": "Invoices",
+      "file": "screens/Home/Invoices.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Schedule",
+      "file": "screens/Home/Schedule.png",
+      "w": 390,
+      "h": 844
+    }
+  ],
+  "Calendar Sync": [
+    {
+      "label": "Syncing",
+      "file": "screens/Calendar_Sync/Syncing.png",
+      "w": 390,
+      "h": 1256
+    },
+    {
+      "label": "Syncing-1",
+      "file": "screens/Calendar_Sync/Syncing-1.png",
+      "w": 390,
+      "h": 1256
+    }
+  ],
+  "Subscriptions": [
+    {
+      "label": "Subscriptions",
+      "file": "screens/Subscriptions/Subscriptions.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Subscriptions-1",
+      "file": "screens/Subscriptions/Subscriptions-1.png",
+      "w": 780,
+      "h": 1688
+    }
+  ],
+  "User Profile Page": [
+    {
+      "label": "User Profile(Business plan)",
+      "file": "screens/User_Profile_Page/User Profile(Business plan).png",
+      "w": 780,
+      "h": 2520
+    },
+    {
+      "label": "User Profile(Care plan)",
+      "file": "screens/User_Profile_Page/User Profile(Care plan).png",
+      "w": 780,
+      "h": 2520
+    },
+    {
+      "label": "User Profile(Core plan)",
+      "file": "screens/User_Profile_Page/User Profile(Core plan).png",
+      "w": 780,
+      "h": 2520
+    },
+    {
+      "label": "User Profile(Pro plan)",
+      "file": "screens/User_Profile_Page/User Profile(Pro plan).png",
+      "w": 780,
+      "h": 2520
+    }
+  ],
+  "Users Team": [
+    {
+      "label": "Add member modal",
+      "file": "screens/Users_Team/Add member modal.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Add team seats modal",
+      "file": "screens/Users_Team/Add team seats modal.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Cancle Invitation",
+      "file": "screens/Users_Team/Cancle Invitation.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Pending to accept",
+      "file": "screens/Users_Team/Pending to accept.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Pending to accept (variant)",
+      "file": "screens/Users_Team/Pending to accept [10].png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Pending to accept-1",
+      "file": "screens/Users_Team/Pending to accept-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Pending to accept-2",
+      "file": "screens/Users_Team/Pending to accept-2.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Progressing",
+      "file": "screens/Users_Team/Progressing.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Team's Member (You Are Owner / Hasn't member)",
+      "file": "screens/Users_Team/Team's Member (You Are Owner - Hasn't member).png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "User Profile 4",
+      "file": "screens/Users_Team/User Profile 4.png",
+      "w": 780,
+      "h": 1688
+    }
+  ],
+  "Products (Custom Nail/Shoe)": [
+    {
+      "label": "Add New Custom Product",
+      "file": "screens/Products_Custom_Nail_Shoe/Add New Custom Product.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Add New Custom Product-1",
+      "file": "screens/Products_Custom_Nail_Shoe/Add New Custom Product-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Add New Custom Product-2",
+      "file": "screens/Products_Custom_Nail_Shoe/Add New Custom Product-2.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Add New Custom Product-3",
+      "file": "screens/Products_Custom_Nail_Shoe/Add New Custom Product-3.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Entry page",
+      "file": "screens/Products_Custom_Nail_Shoe/Entry page.png",
+      "w": 778,
+      "h": 3512
+    },
+    {
+      "label": "Location",
+      "file": "screens/Products_Custom_Nail_Shoe/Location.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Nail",
+      "file": "screens/Products_Custom_Nail_Shoe/Nail.png",
+      "w": 780,
+      "h": 1870
+    },
+    {
+      "label": "Native permission screen",
+      "file": "screens/Products_Custom_Nail_Shoe/Native permission screen.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Shoe",
+      "file": "screens/Products_Custom_Nail_Shoe/Shoe.png",
+      "w": 780,
+      "h": 1870
+    },
+    {
+      "label": "Shoe-1",
+      "file": "screens/Products_Custom_Nail_Shoe/Shoe-1.png",
+      "w": 780,
+      "h": 1870
+    },
+    {
+      "label": "Shoe-2",
+      "file": "screens/Products_Custom_Nail_Shoe/Shoe-2.png",
+      "w": 780,
+      "h": 1870
+    },
+    {
+      "label": "Write Manually",
+      "file": "screens/Products_Custom_Nail_Shoe/Write Manually.png",
+      "w": 780,
+      "h": 1688
+    }
+  ],
+  "Records (type unlabeled)": [
+    {
+      "label": "Record deleted",
+      "file": "screens/Records_type_unlabeled/Record deleted.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Records",
+      "file": "screens/Records_type_unlabeled/Records.png",
+      "w": 390,
+      "h": 844
+    }
+  ],
+  "Farrier Record": [
+    {
+      "label": "AI",
+      "file": "screens/Farrier_Record/AI.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "AI-1",
+      "file": "screens/Farrier_Record/AI-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Add Procedures",
+      "file": "screens/Farrier_Record/Add Procedures.png",
+      "w": 780,
+      "h": 1818
+    },
+    {
+      "label": "Add Procedures-1",
+      "file": "screens/Farrier_Record/Add Procedures-1.png",
+      "w": 780,
+      "h": 1818
+    },
+    {
+      "label": "Ai Filled",
+      "file": "screens/Farrier_Record/Ai Filled.png",
+      "w": 780,
+      "h": 1692
+    },
+    {
+      "label": "Create Procedure",
+      "file": "screens/Farrier_Record/Create Procedure.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Create Procedure-1",
+      "file": "screens/Farrier_Record/Create Procedure-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Create Procedure-2",
+      "file": "screens/Farrier_Record/Create Procedure-2.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Delete",
+      "file": "screens/Farrier_Record/Delete.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Delete Confirmation",
+      "file": "screens/Farrier_Record/Delete Confirmation.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Edit Record",
+      "file": "screens/Farrier_Record/Edit Record.png",
+      "w": 780,
+      "h": 4000
+    },
+    {
+      "label": "Edit Record-1",
+      "file": "screens/Farrier_Record/Edit Record-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "New Farrier Record",
+      "file": "screens/Farrier_Record/New Farrier Record.png",
+      "w": 780,
+      "h": 3686
+    },
+    {
+      "label": "New Farrier Record-1",
+      "file": "screens/Farrier_Record/New Farrier Record-1.png",
+      "w": 780,
+      "h": 3846
+    },
+    {
+      "label": "New Farrier Record-2",
+      "file": "screens/Farrier_Record/New Farrier Record-2.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "New Farrier Record-3",
+      "file": "screens/Farrier_Record/New Farrier Record-3.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "New Farrier Record-4",
+      "file": "screens/Farrier_Record/New Farrier Record-4.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "No Procedures",
+      "file": "screens/Farrier_Record/No Procedures.png",
+      "w": 780,
+      "h": 1920
+    },
+    {
+      "label": "No horses Yet",
+      "file": "screens/Farrier_Record/No horses Yet.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Procedures",
+      "file": "screens/Farrier_Record/Procedures.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Procedures List",
+      "file": "screens/Farrier_Record/Procedures List.png",
+      "w": 780,
+      "h": 1920
+    },
+    {
+      "label": "Procedures List Selected",
+      "file": "screens/Farrier_Record/Procedures List Selected.png",
+      "w": 780,
+      "h": 1920
+    },
+    {
+      "label": "Procedures List-1",
+      "file": "screens/Farrier_Record/Procedures List-1.png",
+      "w": 780,
+      "h": 1920
+    },
+    {
+      "label": "Procedures-1",
+      "file": "screens/Farrier_Record/Procedures-1.png",
+      "w": 780,
+      "h": 1818
+    },
+    {
+      "label": "Procedures-2",
+      "file": "screens/Farrier_Record/Procedures-2.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Procedures-3",
+      "file": "screens/Farrier_Record/Procedures-3.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Record List",
+      "file": "screens/Farrier_Record/Record List.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Record List-1",
+      "file": "screens/Farrier_Record/Record List-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Record Type",
+      "file": "screens/Farrier_Record/Record Type.png",
+      "w": 780,
+      "h": 1900
+    },
+    {
+      "label": "Record deleted",
+      "file": "screens/Farrier_Record/Record deleted.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Records",
+      "file": "screens/Farrier_Record/Records.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Select Record Type",
+      "file": "screens/Farrier_Record/Select Record Type.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Select Record Type-1",
+      "file": "screens/Farrier_Record/Select Record Type-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Select Record Type-2",
+      "file": "screens/Farrier_Record/Select Record Type-2.png",
+      "w": 780,
+      "h": 1688
+    }
+  ],
+  "Treatment Record": [
+    {
+      "label": "Add Shoeing",
+      "file": "screens/Treatment_Record/Add Shoeing.png",
+      "w": 780,
+      "h": 3304
+    },
+    {
+      "label": "Add Shoeing-1",
+      "file": "screens/Treatment_Record/Add Shoeing-1.png",
+      "w": 780,
+      "h": 3304
+    },
+    {
+      "label": "Alert",
+      "file": "screens/Treatment_Record/Alert.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Alert-1",
+      "file": "screens/Treatment_Record/Alert-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Delete",
+      "file": "screens/Treatment_Record/Delete.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Job Type",
+      "file": "screens/Treatment_Record/Job Type.png",
+      "w": 780,
+      "h": 1900
+    },
+    {
+      "label": "Records",
+      "file": "screens/Treatment_Record/Records.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Reminder",
+      "file": "screens/Treatment_Record/Reminder.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Reminder - Treatment",
+      "file": "screens/Treatment_Record/Reminder - Treatment.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Reminder - Treatment-1",
+      "file": "screens/Treatment_Record/Reminder - Treatment-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Reminder-1",
+      "file": "screens/Treatment_Record/Reminder-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Select Record Type",
+      "file": "screens/Treatment_Record/Select Record Type.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Select Record Type-1",
+      "file": "screens/Treatment_Record/Select Record Type-1.png",
+      "w": 780,
+      "h": 1688
+    }
+  ],
+  "Vaccination Record": [
+    {
+      "label": "Add Shoeing",
+      "file": "screens/Vaccination_Record/Add Shoeing.png",
+      "w": 780,
+      "h": 3304
+    },
+    {
+      "label": "Add Shoeing-1",
+      "file": "screens/Vaccination_Record/Add Shoeing-1.png",
+      "w": 780,
+      "h": 3304
+    },
+    {
+      "label": "Alert",
+      "file": "screens/Vaccination_Record/Alert.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Alert-1",
+      "file": "screens/Vaccination_Record/Alert-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Delete",
+      "file": "screens/Vaccination_Record/Delete.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Job Type",
+      "file": "screens/Vaccination_Record/Job Type.png",
+      "w": 780,
+      "h": 2252
+    },
+    {
+      "label": "Records",
+      "file": "screens/Vaccination_Record/Records.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Reminder",
+      "file": "screens/Vaccination_Record/Reminder.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Reminder - Vaccination",
+      "file": "screens/Vaccination_Record/Reminder - Vaccination.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Reminder - Vaccination-1",
+      "file": "screens/Vaccination_Record/Reminder - Vaccination-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Reminder-1",
+      "file": "screens/Vaccination_Record/Reminder-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Select Record Type",
+      "file": "screens/Vaccination_Record/Select Record Type.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Select Record Type-1",
+      "file": "screens/Vaccination_Record/Select Record Type-1.png",
+      "w": 780,
+      "h": 1688
+    }
+  ],
+  "Global Search": [
+    {
+      "label": "Active Search",
+      "file": "screens/Global_Search/Active Search.png",
+      "w": 783,
+      "h": 1695
+    },
+    {
+      "label": "Active Search-1",
+      "file": "screens/Global_Search/Active Search-1.png",
+      "w": 783,
+      "h": 1695
+    },
+    {
+      "label": "Active Search-2",
+      "file": "screens/Global_Search/Active Search-2.png",
+      "w": 783,
+      "h": 1695
+    },
+    {
+      "label": "Active Search-3",
+      "file": "screens/Global_Search/Active Search-3.png",
+      "w": 783,
+      "h": 1695
+    },
+    {
+      "label": "Active search",
+      "file": "screens/Global_Search/Active search.png",
+      "w": 783,
+      "h": 1695
+    },
+    {
+      "label": "Active search-1",
+      "file": "screens/Global_Search/Active search-1.png",
+      "w": 783,
+      "h": 1695
+    },
+    {
+      "label": "Active search-2",
+      "file": "screens/Global_Search/Active search-2.png",
+      "w": 783,
+      "h": 1695
+    },
+    {
+      "label": "Active search-3",
+      "file": "screens/Global_Search/Active search-3.png",
+      "w": 783,
+      "h": 1695
+    },
+    {
+      "label": "Active search-4",
+      "file": "screens/Global_Search/Active search-4.png",
+      "w": 783,
+      "h": 1695
+    },
+    {
+      "label": "Active search-5",
+      "file": "screens/Global_Search/Active search-5.png",
+      "w": 783,
+      "h": 1695
+    },
+    {
+      "label": "Active search-6",
+      "file": "screens/Global_Search/Active search-6.png",
+      "w": 783,
+      "h": 1695
+    },
+    {
+      "label": "Default (Have history)",
+      "file": "screens/Global_Search/Default (Have history).png",
+      "w": 783,
+      "h": 1695
+    },
+    {
+      "label": "Show all results",
+      "file": "screens/Global_Search/Show all results.png",
+      "w": 783,
+      "h": 1695
+    }
+  ],
+  "Horses / Create Horse": [
+    {
+      "label": "AI found the problems",
+      "file": "screens/Horses_Create_Horse/AI found the problems.png",
+      "w": 780,
+      "h": 1850
+    },
+    {
+      "label": "AI found the problems-1",
+      "file": "screens/Horses_Create_Horse/AI found the problems-1.png",
+      "w": 780,
+      "h": 1850
+    },
+    {
+      "label": "Access management",
+      "file": "screens/Horses_Create_Horse/Access management.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Access management-1",
+      "file": "screens/Horses_Create_Horse/Access management-1.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Access management-2",
+      "file": "screens/Horses_Create_Horse/Access management-2.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Access management-3",
+      "file": "screens/Horses_Create_Horse/Access management-3.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Access management-4",
+      "file": "screens/Horses_Create_Horse/Access management-4.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Add Shoe Cycle",
+      "file": "screens/Horses_Create_Horse/Add Shoe Cycle.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Add Weight",
+      "file": "screens/Horses_Create_Horse/Add Weight.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Add Weight-1",
+      "file": "screens/Horses_Create_Horse/Add Weight-1.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Add Weight-2",
+      "file": "screens/Horses_Create_Horse/Add Weight-2.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Cancle transferring",
+      "file": "screens/Horses_Create_Horse/Cancle transferring.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Delete horse profile",
+      "file": "screens/Horses_Create_Horse/Delete horse profile.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Edit",
+      "file": "screens/Horses_Create_Horse/Edit.png",
+      "w": 780,
+      "h": 3688
+    },
+    {
+      "label": "Edit-1",
+      "file": "screens/Horses_Create_Horse/Edit-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Empty State",
+      "file": "screens/Horses_Create_Horse/Empty State.png",
+      "w": 390,
+      "h": 1499
+    },
+    {
+      "label": "Empty State-1",
+      "file": "screens/Horses_Create_Horse/Empty State-1.png",
+      "w": 390,
+      "h": 1499
+    },
+    {
+      "label": "Empty State-2",
+      "file": "screens/Horses_Create_Horse/Empty State-2.png",
+      "w": 390,
+      "h": 1499
+    },
+    {
+      "label": "Error",
+      "file": "screens/Horses_Create_Horse/Error.png",
+      "w": 780,
+      "h": 1834
+    },
+    {
+      "label": "Hans mustad horse's list.",
+      "file": "screens/Horses_Create_Horse/Hans mustad horse's list..png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Horse Profile",
+      "file": "screens/Horses_Create_Horse/Horse Profile.png",
+      "w": 390,
+      "h": 1499
+    },
+    {
+      "label": "Horse Profile-1",
+      "file": "screens/Horses_Create_Horse/Horse Profile-1.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Horse Profile-2",
+      "file": "screens/Horses_Create_Horse/Horse Profile-2.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Horse Profile-3",
+      "file": "screens/Horses_Create_Horse/Horse Profile-3.png",
+      "w": 390,
+      "h": 865
+    },
+    {
+      "label": "Horse Profile-4",
+      "file": "screens/Horses_Create_Horse/Horse Profile-4.png",
+      "w": 390,
+      "h": 865
+    },
+    {
+      "label": "Horse Profile-5",
+      "file": "screens/Horses_Create_Horse/Horse Profile-5.png",
+      "w": 390,
+      "h": 865
+    },
+    {
+      "label": "Horse Profile-6",
+      "file": "screens/Horses_Create_Horse/Horse Profile-6.png",
+      "w": 390,
+      "h": 865
+    },
+    {
+      "label": "Horse Profile-7",
+      "file": "screens/Horses_Create_Horse/Horse Profile-7.png",
+      "w": 390,
+      "h": 865
+    },
+    {
+      "label": "Horse Profile-8",
+      "file": "screens/Horses_Create_Horse/Horse Profile-8.png",
+      "w": 390,
+      "h": 865
+    },
+    {
+      "label": "Horse Profile-9",
+      "file": "screens/Horses_Create_Horse/Horse Profile-9.png",
+      "w": 390,
+      "h": 1499
+    },
+    {
+      "label": "Horse images",
+      "file": "screens/Horses_Create_Horse/Horse images.png",
+      "w": 780,
+      "h": 1850
+    },
+    {
+      "label": "Horse images-1",
+      "file": "screens/Horses_Create_Horse/Horse images-1.png",
+      "w": 780,
+      "h": 1850
+    },
+    {
+      "label": "Images issues",
+      "file": "screens/Horses_Create_Horse/Images issues.png",
+      "w": 780,
+      "h": 1850
+    },
+    {
+      "label": "Location",
+      "file": "screens/Horses_Create_Horse/Location.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Location-1",
+      "file": "screens/Horses_Create_Horse/Location-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Location-2",
+      "file": "screens/Horses_Create_Horse/Location-2.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Location-3",
+      "file": "screens/Horses_Create_Horse/Location-3.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Native permission screen",
+      "file": "screens/Horses_Create_Horse/Native permission screen.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Native permission screen-1",
+      "file": "screens/Horses_Create_Horse/Native permission screen-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Rate limit",
+      "file": "screens/Horses_Create_Horse/Rate limit.png",
+      "w": 780,
+      "h": 1850
+    },
+    {
+      "label": "Reached their horse limit.",
+      "file": "screens/Horses_Create_Horse/Reached their horse limit..png",
+      "w": 2788,
+      "h": 2656
+    },
+    {
+      "label": "Step1",
+      "file": "screens/Horses_Create_Horse/Step1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Title",
+      "file": "screens/Horses_Create_Horse/Title.png",
+      "w": 4380,
+      "h": 290
+    },
+    {
+      "label": "Title-1",
+      "file": "screens/Horses_Create_Horse/Title-1.png",
+      "w": 8790,
+      "h": 290
+    },
+    {
+      "label": "Title-2",
+      "file": "screens/Horses_Create_Horse/Title-2.png",
+      "w": 6052,
+      "h": 470
+    },
+    {
+      "label": "Title-3",
+      "file": "screens/Horses_Create_Horse/Title-3.png",
+      "w": 7020,
+      "h": 290
+    },
+    {
+      "label": "Transfer Ownership",
+      "file": "screens/Horses_Create_Horse/Transfer Ownership.png",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "label": "Transfer Ownership-1",
+      "file": "screens/Horses_Create_Horse/Transfer Ownership-1.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Write Manually",
+      "file": "screens/Horses_Create_Horse/Write Manually.png",
+      "w": 780,
+      "h": 1688
+    },
+    {
+      "label": "Write Manually-1",
+      "file": "screens/Horses_Create_Horse/Write Manually-1.png",
+      "w": 780,
+      "h": 1688
+    }
+  ]
+}
